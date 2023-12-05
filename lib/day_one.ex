@@ -30,8 +30,8 @@ defmodule DayOne do
       input
       |> get_last_value()
 
-      first_value <> last_value
-      |> String.to_integer()
+    (first_value <> last_value)
+    |> String.to_integer()
   end
 
   defp get_first_value(input) do
@@ -53,7 +53,7 @@ defmodule DayOne do
       line
       |> get_last_value_including_words()
 
-    first_value <> last_value
+    (first_value <> last_value)
     |> String.to_integer()
   end
 
