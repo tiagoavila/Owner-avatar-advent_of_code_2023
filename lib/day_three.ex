@@ -56,7 +56,7 @@ defmodule DayThree do
         gear_symbols =
           Regex.scan(@gear_regex, row, return: :index)
           |> Enum.reduce(acc.gear_symbols, fn [{col_index, _}], map_acc ->
-            Map.put(map_acc, {row_index, col_index}, {0, []})
+            Map.put(map_acc, {row_index, col_index}, {0, 1})
           end)
 
         acc = %{acc | gear_symbols: Map.merge(acc.gear_symbols, gear_symbols)}
@@ -106,10 +106,9 @@ defmodule DayThree do
         |> update_adjacency_gear_symbol(gear_symbols_acc, {row + 1, col_index}, number)
       end)
     end)
-    |> Enum.reduce(0, fn {_, {count, numbers}}, acc ->
+    |> Enum.reduce(0, fn {_, {count, ratio}}, acc ->
       if count == 2 do
-        [number1, number2] = numbers
-        acc + number1 * number2
+        acc + ratio
       else
         acc
       end
@@ -119,12 +118,12 @@ defmodule DayThree do
   defp update_adjacency_gear_symbol(false, gear_symbols, _, _), do: gear_symbols
 
   defp update_adjacency_gear_symbol(true, gear_symbols, key, number) do
-    {count, numbers} = Map.get(gear_symbols, key)
+    {count, ratio} = Map.get(gear_symbols, key)
 
     Map.replace(
       gear_symbols,
       key,
-      {count + 1, [number | numbers]}
+      {count + 1, ratio * number}
     )
   end
 
