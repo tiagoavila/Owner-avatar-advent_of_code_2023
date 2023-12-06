@@ -1,8 +1,9 @@
 defmodule DayThree do
-  alias DayThree.{Accumulator, NumberPosition}
+  alias DayThree.{Accumulator, NumberPosition, AccumulatorPartTwo}
 
   @valid_symbol_regex ~r/[^\d|^.]/
   @numbers_regex ~r/\d+/
+  @gear_regex ~r/\*{1}/
 
   def part_one(input) do
     %{valid_symbols: valid_symbols, numbers: numbers} =
@@ -48,8 +49,83 @@ defmodule DayThree do
   end
 
   def part_two(input) do
+    %{gear_symbols: gear_symbols, numbers: numbers} =
+      input
+      |> Enum.with_index()
+      |> Enum.reduce(%AccumulatorPartTwo{}, fn {row, row_index}, acc ->
+        gear_symbols =
+          Regex.scan(@gear_regex, row, return: :index)
+          |> Enum.reduce(acc.gear_symbols, fn [{col_index, _}], map_acc ->
+            Map.put(map_acc, {row_index, col_index}, {0, []})
+          end)
 
-    467835
+        acc = %{acc | gear_symbols: Map.merge(acc.gear_symbols, gear_symbols)}
+
+        Regex.scan(@numbers_regex, row, return: :index)
+        |> Enum.reduce(acc, fn [{col_index, size}],
+                               %{gear_symbols: gear_symbols, numbers: numbers} ->
+          number = String.to_integer(String.slice(row, col_index, size))
+
+          gear_symbols =
+            Map.has_key?(gear_symbols, {row_index, col_index - 1})
+            |> update_adjacency_gear_symbol(gear_symbols, {row_index, col_index - 1}, number)
+
+          gear_symbols =
+            Map.has_key?(gear_symbols, {row_index, col_index + size})
+            |> update_adjacency_gear_symbol(gear_symbols, {row_index, col_index + size}, number)
+
+          numbers = [
+            %NumberPosition{
+              row: row_index,
+              init_col: col_index,
+              end_col: col_index + size - 1,
+              number: number
+            }
+            | numbers
+          ]
+
+          %{gear_symbols: gear_symbols, numbers: numbers}
+        end)
+      end)
+
+    numbers
+    |> Enum.reduce(gear_symbols, fn %NumberPosition{
+                                      row: row,
+                                      init_col: init_col,
+                                      end_col: end_col,
+                                      number: number
+                                    },
+                                    gear_symbols_acc ->
+      Enum.reduce((init_col - 1)..(end_col + 1), gear_symbols_acc, fn col_index,
+                                                                      gear_symbols_acc ->
+        gear_symbols_acc =
+          Map.has_key?(gear_symbols_acc, {row - 1, col_index})
+          |> update_adjacency_gear_symbol(gear_symbols_acc, {row - 1, col_index}, number)
+
+        Map.has_key?(gear_symbols_acc, {row + 1, col_index})
+        |> update_adjacency_gear_symbol(gear_symbols_acc, {row + 1, col_index}, number)
+      end)
+    end)
+    |> Enum.reduce(0, fn {_, {count, numbers}}, acc ->
+      if count == 2 do
+        [number1, number2] = numbers
+        acc + number1 * number2
+      else
+        acc
+      end
+    end)
+  end
+
+  defp update_adjacency_gear_symbol(false, gear_symbols, _, _), do: gear_symbols
+
+  defp update_adjacency_gear_symbol(true, gear_symbols, key, number) do
+    {count, numbers} = Map.get(gear_symbols, key)
+
+    Map.replace(
+      gear_symbols,
+      key,
+      {count + 1, [number | numbers]}
+    )
   end
 
   defp check_valid_numbers(%NumberPosition{is_part_number: true, number: number}, acc, _) do

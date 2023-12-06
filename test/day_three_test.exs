@@ -19,4 +19,11 @@ defmodule DayThreeTest do
            |> String.split("\r\n", trim: true)
            |> DayThree.part_two() == 467_835
   end
+
+  test "Day 03 - challenge part two" do
+    assert File.read!("./inputs/day_three/challenge_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> DayThree.part_two()
+           |> IO.inspect(label: "Day 02 - challenge two")
+  end
 end
