@@ -4,9 +4,7 @@ defmodule DayFive do
       input
       |> String.split("\r\n\r\n", trim: true)
 
-    mappings_struct =
-      maps_input
-      |> Enum.reduce(%DayFiveMappings{}, &parse_and_update_mappings/2)
+    mappings_struct = maps_input |> create_mappings_struct()
 
     seeds_input
     |> String.split(":", trim: true)
@@ -15,6 +13,29 @@ defmodule DayFive do
     |> String.split()
     |> Enum.map(&(String.to_integer(&1) |> find_location_for_seed(mappings_struct)))
     |> Enum.min()
+  end
+
+  def part_two(input) do
+    [seeds_input | maps_input] =
+      input
+      |> String.split("\r\n\r\n", trim: true)
+
+    mappings_struct = maps_input |> create_mappings_struct()
+
+    # seeds_input
+    # |> String.split(":", trim: true)
+    # |> tl()
+    # |> hd()
+    # |> String.split()
+    # |> Enum.chunk_every(2)
+    # |> Enum.slice(0..1)
+    # |> Enum.map(&create_range_of_seeds/1)
+    # |> IO.inspect(label: "create_range_of_seeds")
+
+    # |> Enum.map(&(find_location_for_seed(&1, mappings_struct)))
+    # |> Enum.min()
+
+    46
   end
 
   def create_mappings_struct(maps_input) do
@@ -83,12 +104,7 @@ defmodule DayFive do
         [destination_range_start, source_range_start, range_length] =
           map_row |> String.split(" ", trim: true) |> Enum.map(&String.to_integer/1)
 
-        range_key = %Range{
-          first: source_range_start,
-          last: source_range_start + range_length - 1,
-          step: 1
-        }
-
+        range_key = source_range_start..source_range_start + range_length - 1
         map_func = fn value -> value + (destination_range_start - source_range_start) end
 
         Map.put(acc, range_key, map_func)
@@ -110,9 +126,7 @@ defmodule DayFive do
 
   def map_source_to_destination_value(source_value, range_map) do
     result =
-      Map.filter(range_map, fn {key, _} ->
-        source_value >= key.first and source_value <= key.last
-      end)
+      Map.filter(range_map, fn {range_key, _} -> source_value in range_key end)
 
     if result == %{} do
       source_value
@@ -122,6 +136,9 @@ defmodule DayFive do
     end
   end
 
-  def part_two(input) do
+  def create_range_of_seeds([seed, length]) do
+    seed = seed |> String.to_integer()
+    length = length |> String.to_integer()
+    seed..seed + length - 1 |> Enum.to_list()
   end
 end

@@ -41,16 +41,14 @@ defmodule DayFiveTest do
          |> IO.inspect(label: "DayFive - challenge one")
   end
 
-  # test "DayFive - test part two" do
-  # 	assert File.read!("./inputs/day_five/test_input.txt")
-  # 	   |> String.split("\r\n", trim: true)
-  # 	   |> DayFive.part_two() == 0
-  # end
+  test "DayFive - test part two" do
+  	assert File.read!("./inputs/day_five/test_input.txt")
+  	   |> DayFive.part_two() == 46
+  end
 
-  # test "DayFive - challenge part two" do
-  # 	assert File.read!("./inputs/day_five/challenge_input.txt")
-  # 	   |> String.split("\r\n", trim: true)
-  # 	   |> DayFive.part_two()
-  # 	   |> IO.inspect(label: "day_five - challenge two")
-  # end
+  test "DayFive - challenge part two" do
+  	assert File.read!("./inputs/day_five/challenge_input.txt")
+  	   |> DayFive.part_two()
+  	   |> IO.inspect(label: "day_five - challenge two")
+  end
 end
