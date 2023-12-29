@@ -74,7 +74,6 @@
           {Credo.Check.Consistency.ParameterPatternMatching, []},
           {Credo.Check.Consistency.SpaceAroundOperators, []},
           {Credo.Check.Consistency.SpaceInParentheses, []},
-          {Credo.Check.Consistency.TabsOrSpaces, []},
 
           #
           ## Design Checks
@@ -202,7 +201,8 @@
           {Credo.Check.Warning.LeakyEnvironment, []},
           {Credo.Check.Warning.MapGetUnsafePass, []},
           {Credo.Check.Warning.MixEnv, []},
-          {Credo.Check.Warning.UnsafeToAtom, []}
+          {Credo.Check.Warning.UnsafeToAtom, []},
+          {Credo.Check.Consistency.TabsOrSpaces, []},
 
           # {Credo.Check.Refactor.MapInto, []},
 

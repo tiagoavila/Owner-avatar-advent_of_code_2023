@@ -7,6 +7,7 @@ defmodule DaySix do
     end)
   end
 
+  @spec count_holding_time_to_beat_record(pos_integer(), pos_integer()) :: pos_integer()
   def count_holding_time_to_beat_record(race_time, distance_to_beat) do
     0..race_time
     |> Enum.reduce_while(0, fn holding_time, acc ->
@@ -26,6 +27,7 @@ defmodule DaySix do
     end)
   end
 
+	@spec calculate_distance(pos_integer(), pos_integer()) :: pos_integer()
   def calculate_distance(holding_time, race_time) do
     # For each whole millisecond you spend at the beginning of the race holding down
     # the button, the boat's speed increases by one millimeter per millisecond.
