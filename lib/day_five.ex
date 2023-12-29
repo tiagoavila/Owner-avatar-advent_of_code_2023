@@ -15,12 +15,12 @@ defmodule DayFive do
     |> Enum.min()
   end
 
-  def part_two(input) do
-    [seeds_input | maps_input] =
-      input
-      |> String.split("\r\n\r\n", trim: true)
+  def part_two(_input) do
+    # [seeds_input | maps_input] =
+    #   input
+    #   |> String.split("\r\n\r\n", trim: true)
 
-    mappings_struct = maps_input |> create_mappings_struct()
+    # mappings_struct = maps_input |> create_mappings_struct()
 
     # seeds_input
     # |> String.split(":", trim: true)
@@ -104,7 +104,7 @@ defmodule DayFive do
         [destination_range_start, source_range_start, range_length] =
           map_row |> String.split(" ", trim: true) |> Enum.map(&String.to_integer/1)
 
-        range_key = source_range_start..source_range_start + range_length - 1
+        range_key = {source_range_start, source_range_start + range_length - 1}
         map_func = fn value -> value + (destination_range_start - source_range_start) end
 
         Map.put(acc, range_key, map_func)
@@ -126,7 +126,7 @@ defmodule DayFive do
 
   def map_source_to_destination_value(source_value, range_map) do
     result =
-      Map.filter(range_map, fn {range_key, _} -> source_value in range_key end)
+      Map.filter(range_map, fn {{range_start, range_end}, _} -> source_value >= range_start && source_value <= range_end end)
 
     if result == %{} do
       source_value

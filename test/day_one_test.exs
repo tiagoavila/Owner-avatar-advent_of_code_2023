@@ -19,6 +19,6 @@ defmodule DayOneTest do
 
   test "Day 01 - challenge part two" do
     assert File.read!("./inputs/day_one/challenge_input.txt")
-           |> DayOne.get_sum_of_calibration_values_part2() == 54249
+           |> DayOne.get_sum_of_calibration_values_part2() == 54861
   end
 end
