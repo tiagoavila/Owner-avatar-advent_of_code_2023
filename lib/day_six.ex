@@ -12,6 +12,11 @@ defmodule DaySix do
     |> Enum.reduce_while(0, fn holding_time, acc ->
       distance_reached = calculate_distance(holding_time, race_time)
 
+      # there's a pattern where after you get the number of holding times that failed
+      # to beat the best distance until the first time that beats it, you can use that
+      # number to calculate the holding times to beat the distance by multiplying it by 2
+      # and then subtract it by the race_time + 1 (the + 1 is to include the scenario for the 0 holding time)
+
       if distance_reached > distance_to_beat do
         number_of_fails_for_race = acc * 2
         {:halt, race_time + 1 - number_of_fails_for_race}
