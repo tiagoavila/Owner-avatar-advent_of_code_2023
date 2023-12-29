@@ -61,36 +61,41 @@ defmodule DaySixTest do
     assert DaySix.count_holding_time_to_beat_record(race_time, distance_to_beat) == 4
   end
 
-	test "Test number of Holding Times to beat race of 15 milliseconds" do
+  test "Test number of Holding Times to beat race of 15 milliseconds" do
     race_time = 15
     distance_to_beat = 40
 
     assert DaySix.count_holding_time_to_beat_record(race_time, distance_to_beat) == 8
   end
 
-	test "Test number of Holding Times to beat race of 30 milliseconds" do
+  test "Test number of Holding Times to beat race of 30 milliseconds" do
     race_time = 30
     distance_to_beat = 200
 
     assert DaySix.count_holding_time_to_beat_record(race_time, distance_to_beat) == 9
   end
 
-  test "DaySix - challenge part one" do
-  assert File.read!("./inputs/day_six/challenge_input.txt")
-         |> DaySix.part_one()
-         |> IO.inspect(label: "DaySix - challenge one")
+	test "Test number of Holding Times to beat race of 71530 milliseconds" do
+    race_time = 71530
+    distance_to_beat = 940200
+
+    assert DaySix.count_holding_time_to_beat_record(race_time, distance_to_beat) == 71503
   end
 
-  # test "DaySix - test part two" do
-  # 	assert File.read!("./inputs/day_six/test_input.txt")
-  # 	   |> String.split("\r\n", trim: true)
-  # 	   |> DaySix.part_two() == 0
-  # end
+  test "DaySix - challenge part one" do
+    assert File.read!("./inputs/day_six/challenge_input.txt")
+           |> DaySix.part_one()
+           |> IO.inspect(label: "DaySix - challenge one")
+  end
 
-  # test "DaySix - challenge part two" do
-  # 	assert File.read!("./inputs/day_six/challenge_input.txt")
-  # 	   |> String.split("\r\n", trim: true)
-  # 	   |> DaySix.part_two()
-  # 	   |> IO.inspect(label: "day_six - challenge two")
-  # end
+  test "DaySix - test part two" do
+  	assert File.read!("./inputs/day_six/test_input.txt")
+  	   |> DaySix.part_two() == 71503
+  end
+
+  test "DaySix - challenge part two" do
+  	assert File.read!("./inputs/day_six/challenge_input.txt")
+  	   |> DaySix.part_two()
+  	   |> IO.inspect(label: "day_six - challenge two")
+  end
 end
