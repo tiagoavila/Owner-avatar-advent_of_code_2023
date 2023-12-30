@@ -26,22 +26,22 @@ defmodule DayEightTest do
   end
 
   test "DayEight - challenge part one" do
-  assert File.read!("./inputs/day_eight/challenge_input.txt")
-         |> String.split("\r\n", trim: true)
-         |> DayEight.part_one()
-         |> IO.inspect(label: "DayEight - challenge one")
+    assert File.read!("./inputs/day_eight/challenge_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> DayEight.part_one()
+           |> IO.inspect(label: "DayEight - challenge one")
   end
 
-  # test "DayEight - test part two" do
-  # 	assert File.read!("./inputs/day_eight/test_input.txt")
-  # 	   |> String.split("\r\n", trim: true)
-  # 	   |> DayEight.part_two() == 0
-  # end
+  test "DayEight - test part two" do
+    assert File.read!("./inputs/day_eight/test_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> DayEight.part_two() == 6
+  end
 
-  # test "DayEight - challenge part two" do
-  # 	assert File.read!("./inputs/day_eight/challenge_input.txt")
-  # 	   |> String.split("\r\n", trim: true)
-  # 	   |> DayEight.part_two()
-  # 	   |> IO.inspect(label: "day_eight - challenge two")
-  # end
+  test "DayEight - challenge part two" do
+    assert File.read!("./inputs/day_eight/challenge_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> DayEight.part_two()
+           |> IO.inspect(label: "day_eight - challenge two")
+  end
 end
