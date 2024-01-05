@@ -147,7 +147,7 @@ defmodule DayTen do
   end
 
   # "F" and "7" are not edge pipes because let's say a line passes
-  # through a "L" and a "7", that means the line only intersect the edge of the poligon once.
+  # through an "L" and a "7", which means the line only intersects the edge of the polygon once.
   # This video explains it: https://www.youtube.com/watch?v=zhmzPQwgPg0&t=425s
   @edge_pipes ["L", "J", "|"]
 
