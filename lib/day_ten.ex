@@ -146,6 +146,9 @@ defmodule DayTen do
     end)
   end
 
+  # "F" and "7" are not edge pipes because let's say a line passes
+  # through a "L" and a "7", that means the line only intersect the edge of the poligon once.
+  # This video explains it: https://www.youtube.com/watch?v=zhmzPQwgPg0&t=425s
   @edge_pipes ["L", "J", "|"]
 
   def part_two(input, {row_dir, col_dir} = start_direction, pipe_of_s) do
@@ -177,13 +180,12 @@ defmodule DayTen do
           # https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
           col + 1..col_length - 1
           |> Enum.reduce(0, fn col_inner_loop, ray_casting_acc ->
-            if MapSet.member?(pipes_in_loop, {row, col_inner_loop}) && Map.get(sketch_map, {row, col_inner_loop}) in @edge_pipes do
+            if MapSet.member?(pipes_in_loop, {row, col_inner_loop}) && sketch_map[{row, col_inner_loop}] in @edge_pipes do
               ray_casting_acc + 1
             else
               ray_casting_acc
             end
           end)
-          |> tap(fn ray_casting_acc -> if rem(ray_casting_acc, 2) == 1, do: IO.inspect(label: "row: #{row} col: #{col} ray_casting: #{ray_casting_acc}") end)
           |> then(&(if rem(&1, 2) == 1, do: acc + 1, else: acc))
         end
       end)
