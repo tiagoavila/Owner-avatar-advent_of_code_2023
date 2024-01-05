@@ -11,7 +11,8 @@ defmodule DayElevenTest do
 		assert File.read!("./inputs/day_eleven/test_input.txt")
            |> String.split("\r\n", trim: true)
 					 |> DayEleven.expand_gallaxy_map()
-					 |> IO.inspect(label: "DayEleven - expand_gallaxy_map")
+					 |> Enum.join() == "....#.................#...#..............................................#.....#.......................#...................................#...#....#......."
+
 	end
 
 	# test "DayEleven - challenge part one" do

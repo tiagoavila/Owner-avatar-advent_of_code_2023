@@ -32,7 +32,8 @@ defmodule AdventOfCode2023.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:interval_tree, "~> 0.1.0"},
       {:dialyxir, "~> 0.4", only: [:dev]},
-      {:excoveralls, "~> 0.18", only: :test}
+      {:excoveralls, "~> 0.18", only: :test},
+      {:req, "~> 0.4.5"},
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]
