@@ -1,6 +1,30 @@
 defmodule DayEleven do
   def part_one(input) do
-    374
+    {_, gallaxies_map} =
+      input
+      |> expand_gallaxy_image()
+      |> Enum.with_index()
+      |> Enum.reduce({0, %{}}, fn {line, row_index}, acc ->
+        line
+        |> String.graphemes()
+        |> Enum.with_index()
+        |> Enum.filter(fn {char, _} -> char == "#" end)
+        |> Enum.reduce(acc, fn {_, col_index}, {gallaxies_count, gallaxies_map} ->
+          gallaxies_count = gallaxies_count + 1
+          gallaxies_map = Map.put(gallaxies_map, gallaxies_count, {row_index, col_index})
+          {gallaxies_count, gallaxies_map}
+        end)
+      end)
+
+    Map.keys(gallaxies_map)
+    |> Combination.combine(2)
+    |> Enum.reduce(0, fn [gallaxy_a, gallaxy_b], acc ->
+      {row_a, col_a} = Map.get(gallaxies_map, gallaxy_a)
+      {row_b, col_b} = Map.get(gallaxies_map, gallaxy_b)
+
+      # Calculate the Manhattan distance between the two gallaxies
+      abs(row_b - row_a) + abs(col_b - col_a) + acc
+    end)
   end
 
   def expand_gallaxy_image(input) do
