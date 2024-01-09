@@ -1,37 +1,38 @@
 defmodule DayElevenTest do
-	use ExUnit.Case
+  use ExUnit.Case
 
-	test "DayEleven - test part one" do
+  test "DayEleven - test part one" do
     assert File.read!("./inputs/day_eleven/test_input.txt")
            |> String.split("\r\n", trim: true)
            |> DayEleven.part_one() == 374
-	end
+  end
 
-	test "Expand Gallaxy Map" do
-		assert File.read!("./inputs/day_eleven/test_input.txt")
+  test "Get Rows and Cols without Gallaxies" do
+    assert File.read!("./inputs/day_eleven/test_input.txt")
            |> String.split("\r\n", trim: true)
-					 |> DayEleven.expand_gallaxy_image()
-					 |> Enum.join() == "....#.................#...#..............................................#.....#.......................#...................................#...#....#......."
+           |> DayEleven.get_rows_and_cols_without_gallaxies() == {[7, 3], [2, 5, 8]}
+  end
 
-	end
-
-	test "DayEleven - challenge part one" do
+  test "DayEleven - challenge part one" do
     assert File.read!("./inputs/day_eleven/challenge_input.txt")
            |> String.split("\r\n", trim: true)
-           |> DayEleven.part_one()
-           |> IO.inspect(label: "DayEleven - challenge one")
-	end
+           |> DayEleven.part_one() == 9_522_407
+  end
 
-	# test "DayEleven - test part two" do
-	# 	assert File.read!("./inputs/day_eleven/test_input.txt")
-	# 	   |> String.split("\r\n", trim: true)
-	# 	   |> DayEleven.part_two() == 0
-	# end
+  test "DayEleven - test part two" do
+    assert File.read!("./inputs/day_eleven/test_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> DayEleven.part_two(10) == 1_030
 
-	#test "DayEleven - challenge part two" do
-	#	assert File.read!("./inputs/day_eleven/challenge_input.txt")
-	#	   |> String.split("\r\n", trim: true)
-	#	   |> DayEleven.part_two()
-	#	   |> IO.inspect(label: "day_eleven - challenge two")
-	#end
+    assert File.read!("./inputs/day_eleven/test_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> DayEleven.part_two(100) == 8_410
+  end
+
+  test "DayEleven - challenge part two" do
+  	assert File.read!("./inputs/day_eleven/challenge_input.txt")
+  	   |> String.split("\r\n", trim: true)
+  	   |> DayEleven.part_two(1_000_000)
+  	   |> IO.inspect(label: "day_eleven - challenge two")
+  end
 end

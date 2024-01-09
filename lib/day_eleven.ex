@@ -1,20 +1,10 @@
 defmodule DayEleven do
-  def part_one(input) do
-    {_, gallaxies_map} =
-      input
-      |> expand_gallaxy_image()
-      |> Enum.with_index()
-      |> Enum.reduce({0, %{}}, fn {line, row_index}, acc ->
-        line
-        |> String.graphemes()
-        |> Enum.with_index()
-        |> Enum.filter(fn {char, _} -> char == "#" end)
-        |> Enum.reduce(acc, fn {_, col_index}, {gallaxies_count, gallaxies_map} ->
-          gallaxies_count = gallaxies_count + 1
-          gallaxies_map = Map.put(gallaxies_map, gallaxies_count, {row_index, col_index})
-          {gallaxies_count, gallaxies_map}
-        end)
-      end)
+  def part_one(input, factor \\ 2) do
+    {rows_without_gallaxy, cols_without_gallaxy} = get_rows_and_cols_without_gallaxies(input)
+
+    gallaxies_map = input
+    |> get_gallaxies_map()
+    |> expand_gallaxies_map(rows_without_gallaxy, cols_without_gallaxy, factor)
 
     Map.keys(gallaxies_map)
     |> Combination.combine(2)
@@ -27,41 +17,66 @@ defmodule DayEleven do
     end)
   end
 
-  def expand_gallaxy_image(input) do
+  defp expand_gallaxies_map(gallaxies_map, rows_without_gallaxy, cols_without_gallaxy, factor) do
+    gallaxies_map
+    |> Enum.map(fn {gallaxy, {row, col}} ->
+      no_gallaxy_count_before_row = rows_without_gallaxy
+      |> Enum.count(fn row_without_gallaxy -> row_without_gallaxy < row end)
+
+      no_gallaxy_count_before_col = cols_without_gallaxy
+      |> Enum.count(fn col_without_gallaxy -> col_without_gallaxy < col end)
+
+      row = row + (no_gallaxy_count_before_row * (factor - 1))
+      col = col + (no_gallaxy_count_before_col * (factor - 1))
+
+      {gallaxy, {row, col}}
+    end)
+    |> Map.new()
+  end
+
+  defp get_gallaxies_map(input) do
+    input
+    |> Enum.with_index()
+    |> Enum.reduce({0, %{}}, fn {row, row_index}, acc ->
+      row
+      |> String.graphemes()
+      |> Enum.with_index()
+      |> Enum.filter(fn {char, _} -> char == "#" end)
+      |> Enum.reduce(acc, fn {_, col_index}, {gallaxies_count, gallaxies_map} ->
+        gallaxies_count = gallaxies_count + 1
+        gallaxies_map = Map.put(gallaxies_map, gallaxies_count, {row_index, col_index})
+        {gallaxies_count, gallaxies_map}
+      end)
+    end)
+    |> then(fn {_, gallaxies_map} -> gallaxies_map end)
+  end
+
+  def get_rows_and_cols_without_gallaxies(input) do
     columns_count = hd(input) |> String.length()
     columns = MapSet.new(0..(columns_count - 1))
 
     input
-    |> Enum.flat_map_reduce(columns, fn line, cols_acc ->
-      if String.contains?(line, "#") do
+    |> Enum.with_index()
+    |> Enum.reduce({[], columns}, fn {row, row_index}, {rows_acc, cols_acc} ->
+      if String.contains?(row, "#") do
         cols_acc =
-          Regex.scan(~r/#/, line, return: :index)
+          Regex.scan(~r/#/, row, return: :index)
           |> Enum.reduce(cols_acc, fn [{index, _}], acc ->
             MapSet.delete(acc, index)
           end)
 
-        {[line], cols_acc}
+        {rows_acc, cols_acc}
       else
-        {[line, line], cols_acc}
+        {[row_index | rows_acc], cols_acc}
       end
     end)
-    |> then(fn {updated_image, columns_without_gallaxy} ->
-      columns_without_gallaxy_list =
-        MapSet.to_list(columns_without_gallaxy)
-        |> Enum.reverse()
-
-      updated_image
-      |> Enum.map(fn line ->
-        Enum.reduce(columns_without_gallaxy_list, line, &duplicate_col_char/2)
-      end)
+    |> then(fn {rows_without_gallaxy, columns_without_gallaxy} ->
+      {rows_without_gallaxy, MapSet.to_list(columns_without_gallaxy)}
     end)
   end
 
-  defp duplicate_col_char(index, line) do
-    <<previous::binary-size(index), char::binary-size(1), rest::binary>> = line
-    previous <> char <> char <> rest
-  end
-
-  def part_two(input) do
+  def part_two(input, factor) do
+    input
+    |> part_one(factor)
   end
 end
