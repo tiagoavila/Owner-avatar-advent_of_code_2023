@@ -178,15 +178,16 @@ defmodule DayTen do
         else
           # traverse row applying the ray casting algorithm
           # https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
-          col + 1..col_length - 1
+          (col + 1)..(col_length - 1)
           |> Enum.reduce(0, fn col_inner_loop, ray_casting_acc ->
-            if MapSet.member?(pipes_in_loop, {row, col_inner_loop}) && sketch_map[{row, col_inner_loop}] in @edge_pipes do
+            if MapSet.member?(pipes_in_loop, {row, col_inner_loop}) &&
+                 sketch_map[{row, col_inner_loop}] in @edge_pipes do
               ray_casting_acc + 1
             else
               ray_casting_acc
             end
           end)
-          |> then(&(if rem(&1, 2) == 1, do: acc + 1, else: acc))
+          |> then(&if rem(&1, 2) == 1, do: acc + 1, else: acc)
         end
       end)
     end)

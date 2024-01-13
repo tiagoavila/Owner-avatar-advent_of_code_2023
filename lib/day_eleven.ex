@@ -2,9 +2,10 @@ defmodule DayEleven do
   def part_one(input, factor \\ 2) do
     {rows_without_gallaxy, cols_without_gallaxy} = get_rows_and_cols_without_gallaxies(input)
 
-    gallaxies_map = input
-    |> get_gallaxies_map()
-    |> expand_gallaxies_map(rows_without_gallaxy, cols_without_gallaxy, factor)
+    gallaxies_map =
+      input
+      |> get_gallaxies_map()
+      |> expand_gallaxies_map(rows_without_gallaxy, cols_without_gallaxy, factor)
 
     Map.keys(gallaxies_map)
     |> Combination.combine(2)
@@ -20,14 +21,16 @@ defmodule DayEleven do
   defp expand_gallaxies_map(gallaxies_map, rows_without_gallaxy, cols_without_gallaxy, factor) do
     gallaxies_map
     |> Enum.map(fn {gallaxy, {row, col}} ->
-      no_gallaxy_count_before_row = rows_without_gallaxy
-      |> Enum.count(fn row_without_gallaxy -> row_without_gallaxy < row end)
+      no_gallaxy_count_before_row =
+        rows_without_gallaxy
+        |> Enum.count(fn row_without_gallaxy -> row_without_gallaxy < row end)
 
-      no_gallaxy_count_before_col = cols_without_gallaxy
-      |> Enum.count(fn col_without_gallaxy -> col_without_gallaxy < col end)
+      no_gallaxy_count_before_col =
+        cols_without_gallaxy
+        |> Enum.count(fn col_without_gallaxy -> col_without_gallaxy < col end)
 
-      row = row + (no_gallaxy_count_before_row * (factor - 1))
-      col = col + (no_gallaxy_count_before_col * (factor - 1))
+      row = row + no_gallaxy_count_before_row * (factor - 1)
+      col = col + no_gallaxy_count_before_col * (factor - 1)
 
       {gallaxy, {row, col}}
     end)

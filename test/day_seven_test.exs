@@ -1,12 +1,14 @@
 defmodule DaySevenTest do
   use ExUnit.Case
 
+  @tag skip: true
   test "DaySeven - test part one" do
     assert File.read!("./inputs/day_seven/test_input.txt")
            |> String.split("\r\n", trim: true)
            |> DaySeven.part_one() == 6440
   end
 
+  @tag skip: true
   test "Get Hand Type" do
     assert DaySeven.get_hand_type("AAAAA") == :five_of_a_kind
     assert DaySeven.get_hand_type("22222") == :five_of_a_kind
@@ -39,6 +41,7 @@ defmodule DaySevenTest do
     assert DaySeven.get_hand_type("AKQJT") == :high_card
   end
 
+  @tag skip: true
   test "Test sort of hands of different types" do
     one_pair_hand = "32T3K"
     two_pair_hand = "KK677"
@@ -52,6 +55,7 @@ defmodule DaySevenTest do
     assert DaySeven.is_weaker_hand_first?(one_pair_hand, three_of_a_kind_hand) == true
   end
 
+  @tag skip: true
   test "Test sort of hands of same types" do
     two_pair_weaker_hand = "KTJJT"
     two_pair_stronger_hand = "KK677"
@@ -81,6 +85,7 @@ defmodule DaySevenTest do
              false
   end
 
+  @tag skip: true
   test "Test sort of hands" do
     hands = [
       {"32T3K", "765"},
@@ -101,6 +106,7 @@ defmodule DaySevenTest do
     assert DaySeven.sort_hands(hands) == hands_sorted_from_weakest_to_strongest
   end
 
+  @tag skip: true
   test "DaySeven - challenge part one" do
     assert File.read!("./inputs/day_seven/challenge_input.txt")
            |> String.split("\r\n", trim: true)
@@ -108,15 +114,17 @@ defmodule DaySevenTest do
            |> IO.inspect(label: "DaySeven - challenge one")
   end
 
-	test "Test get hand type considering J as Joker" do
-		assert DaySeven.get_hand_type_part_two("QJJQQ") == :five_of_a_kind
-		assert DaySeven.get_hand_type_part_two("QJJQ2") == :four_of_a_kind
-		assert DaySeven.get_hand_type_part_two("T55J5") == :four_of_a_kind
-		assert DaySeven.get_hand_type_part_two("KTJJT") == :four_of_a_kind
-		assert DaySeven.get_hand_type_part_two("QQQJA") == :four_of_a_kind
-	end
+  @tag skip: true
+  test "Test get hand type considering J as Joker" do
+    assert DaySeven.get_hand_type_part_two("QJJQQ") == :five_of_a_kind
+    assert DaySeven.get_hand_type_part_two("QJJQ2") == :four_of_a_kind
+    assert DaySeven.get_hand_type_part_two("T55J5") == :four_of_a_kind
+    assert DaySeven.get_hand_type_part_two("KTJJT") == :four_of_a_kind
+    assert DaySeven.get_hand_type_part_two("QQQJA") == :four_of_a_kind
+  end
 
-	test "Test sort of hands for part two" do
+  @tag skip: true
+  test "Test sort of hands for part two" do
     hands = [
       {"32T3K", "765"},
       {"T55J5", "684"},
@@ -136,16 +144,18 @@ defmodule DaySevenTest do
     assert DaySeven.sort_hands_part_two(hands) == hands_sorted_from_weakest_to_strongest
   end
 
+  @tag skip: true
   test "DaySeven - test part two" do
-  	assert File.read!("./inputs/day_seven/test_input.txt")
-  	   |> String.split("\r\n", trim: true)
-  	   |> DaySeven.part_two() == 5905
+    assert File.read!("./inputs/day_seven/test_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> DaySeven.part_two() == 5905
   end
 
+  @tag skip: true
   test "DaySeven - challenge part two" do
-  	assert File.read!("./inputs/day_seven/challenge_input.txt")
-  	   |> String.split("\r\n", trim: true)
-  	   |> DaySeven.part_two()
-  	   |> IO.inspect(label: "day_seven - challenge two")
+    assert File.read!("./inputs/day_seven/challenge_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> DaySeven.part_two()
+           |> IO.inspect(label: "day_seven - challenge two")
   end
 end

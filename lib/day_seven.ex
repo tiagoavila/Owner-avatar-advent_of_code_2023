@@ -103,7 +103,7 @@ defmodule DaySeven do
   end
 
   def part_two(input) do
-		input
+    input
     |> Enum.map(&(String.split(&1, " ") |> List.to_tuple()))
     |> sort_hands_part_two()
     |> Enum.with_index(1)
@@ -112,14 +112,14 @@ defmodule DaySeven do
     end)
   end
 
-	def sort_hands_part_two(hands) do
+  def sort_hands_part_two(hands) do
     hands
     |> Enum.sort(fn {hand_one, _bid_hand_one}, {hand_two, _bid_hand_two} ->
       is_weaker_hand_first_part_two?(hand_one, hand_two)
     end)
   end
 
-	@doc """
+  @doc """
   	The given function should compare two hands,
   	and return true if the first hand is weaker than the second one.
   """
@@ -149,7 +149,7 @@ defmodule DaySeven do
     end
   end
 
-	@spec get_hand_type_part_two(binary()) ::
+  @spec get_hand_type_part_two(binary()) ::
           :five_of_a_kind
           | :four_of_a_kind
           | :full_house
@@ -157,16 +157,17 @@ defmodule DaySeven do
           | :one_pair
           | :three_of_a_kind
           | :two_pairs
-	def get_hand_type_part_two("JJJJJ"), do: :five_of_a_kind
+  def get_hand_type_part_two("JJJJJ"), do: :five_of_a_kind
+
   def get_hand_type_part_two(hand) do
-		most_repeated_letter = get_most_repeated_letter(hand)
+    most_repeated_letter = get_most_repeated_letter(hand)
 
     hand
-		|> String.replace("J", most_repeated_letter)
+    |> String.replace("J", most_repeated_letter)
     |> get_hand_type()
   end
 
-	defp get_sort_value_for_card_type_part_two(card) do
+  defp get_sort_value_for_card_type_part_two(card) do
     case card do
       "A" -> 14
       "K" -> 13
@@ -177,7 +178,7 @@ defmodule DaySeven do
     end
   end
 
-	defp get_most_repeated_letter(str) do
+  defp get_most_repeated_letter(str) do
     str
     |> String.replace("J", "")
     |> String.graphemes()

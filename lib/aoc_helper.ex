@@ -1,4 +1,4 @@
-defmodule Aoc do
+defmodule AocHelper do
   def get_input(day) do
     session = Application.get_env(:advent_of_code_2023, :aoc_session)
 

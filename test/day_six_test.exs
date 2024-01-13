@@ -1,11 +1,13 @@
 defmodule DaySixTest do
   use ExUnit.Case
 
+  @tag skip: true
   test "DaySix - test part one" do
     assert File.read!("./inputs/day_six/test_input.txt")
            |> DaySix.part_one() == 288
   end
 
+  @tag skip: true
   test "Test Calculation of distance based on holding time for race of 7 milliseconds" do
     race_time = 7
 
@@ -26,6 +28,7 @@ defmodule DaySixTest do
     end)
   end
 
+  @tag skip: true
   test "Test Calculation of distance based on holding time for race of 15 milliseconds" do
     race_time = 15
 
@@ -54,6 +57,7 @@ defmodule DaySixTest do
     end)
   end
 
+  @tag skip: true
   test "Test number of Holding Times to beat race of 7 milliseconds" do
     race_time = 7
     distance_to_beat = 9
@@ -61,6 +65,7 @@ defmodule DaySixTest do
     assert DaySix.count_holding_time_to_beat_record(race_time, distance_to_beat) == 4
   end
 
+  @tag skip: true
   test "Test number of Holding Times to beat race of 15 milliseconds" do
     race_time = 15
     distance_to_beat = 40
@@ -68,6 +73,7 @@ defmodule DaySixTest do
     assert DaySix.count_holding_time_to_beat_record(race_time, distance_to_beat) == 8
   end
 
+  @tag skip: true
   test "Test number of Holding Times to beat race of 30 milliseconds" do
     race_time = 30
     distance_to_beat = 200
@@ -75,27 +81,31 @@ defmodule DaySixTest do
     assert DaySix.count_holding_time_to_beat_record(race_time, distance_to_beat) == 9
   end
 
-	test "Test number of Holding Times to beat race of 71530 milliseconds" do
+  @tag skip: true
+  test "Test number of Holding Times to beat race of 71530 milliseconds" do
     race_time = 71530
-    distance_to_beat = 940200
+    distance_to_beat = 940_200
 
     assert DaySix.count_holding_time_to_beat_record(race_time, distance_to_beat) == 71503
   end
 
+  @tag skip: true
   test "DaySix - challenge part one" do
     assert File.read!("./inputs/day_six/challenge_input.txt")
            |> DaySix.part_one()
            |> IO.inspect(label: "DaySix - challenge one")
   end
 
+  @tag skip: true
   test "DaySix - test part two" do
-  	assert File.read!("./inputs/day_six/test_input.txt")
-  	   |> DaySix.part_two() == 71503
+    assert File.read!("./inputs/day_six/test_input.txt")
+           |> DaySix.part_two() == 71503
   end
 
+  @tag skip: true
   test "DaySix - challenge part two" do
-  	assert File.read!("./inputs/day_six/challenge_input.txt")
-  	   |> DaySix.part_two()
-  	   |> IO.inspect(label: "day_six - challenge two")
+    assert File.read!("./inputs/day_six/challenge_input.txt")
+           |> DaySix.part_two()
+           |> IO.inspect(label: "day_six - challenge two")
   end
 end

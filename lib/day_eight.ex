@@ -6,16 +6,16 @@ defmodule DayEight do
       nodes
       |> parse_input_to_nodes_map()
 
-		instructions = instructions_string |> String.graphemes()
+    instructions = instructions_string |> String.graphemes()
 
     count_steps("AAA", instructions, nodes_map)
   end
 
-	defp count_steps(initial_node, instructions, nodes_map) do
-		instructions
+  defp count_steps(initial_node, instructions, nodes_map) do
+    instructions
     |> Stream.cycle()
     |> Enum.reduce_while({initial_node, 0, nodes_map}, &move_to_node/2)
-	end
+  end
 
   defp move_to_node(_, {<<_, _, "Z">>, steps, _}), do: {:halt, steps}
 
@@ -44,12 +44,12 @@ defmodule DayEight do
       nodes
       |> parse_input_to_nodes_map()
 
-		instructions = instructions_string |> String.graphemes()
+    instructions = instructions_string |> String.graphemes()
 
     nodes_map
     |> Map.keys()
     |> Enum.filter(&String.ends_with?(&1, "A"))
-		|> Task.async_stream(&(count_steps(&1, instructions, nodes_map)))
-		|> Enum.reduce(1, fn {:ok, steps}, lcm -> div(steps * lcm, Integer.gcd(steps, lcm)) end)
+    |> Task.async_stream(&count_steps(&1, instructions, nodes_map))
+    |> Enum.reduce(1, fn {:ok, steps}, lcm -> div(steps * lcm, Integer.gcd(steps, lcm)) end)
   end
 end

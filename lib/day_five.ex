@@ -126,7 +126,9 @@ defmodule DayFive do
 
   def map_source_to_destination_value(source_value, range_map) do
     result =
-      Map.filter(range_map, fn {{range_start, range_end}, _} -> source_value >= range_start && source_value <= range_end end)
+      Map.filter(range_map, fn {{range_start, range_end}, _} ->
+        source_value >= range_start && source_value <= range_end
+      end)
 
     if result == %{} do
       source_value
@@ -139,6 +141,6 @@ defmodule DayFive do
   def create_range_of_seeds([seed, length]) do
     seed = seed |> String.to_integer()
     length = length |> String.to_integer()
-    seed..seed + length - 1 |> Enum.to_list()
+    seed..(seed + length - 1) |> Enum.to_list()
   end
 end

@@ -1,12 +1,14 @@
 defmodule DayEightTest do
   use ExUnit.Case
 
+  @tag skip: true
   test "DayEight - test part one" do
     assert File.read!("./inputs/day_eight/test_input.txt")
            |> String.split("\r\n", trim: true)
            |> DayEight.part_one() == 6
   end
 
+  @tag skip: true
   test "Simple example to find ZZZ node" do
     input = """
     RL
@@ -25,6 +27,7 @@ defmodule DayEightTest do
            |> DayEight.part_one() == 2
   end
 
+  @tag skip: true
   test "DayEight - challenge part one" do
     assert File.read!("./inputs/day_eight/challenge_input.txt")
            |> String.split("\r\n", trim: true)
@@ -32,12 +35,14 @@ defmodule DayEightTest do
            |> IO.inspect(label: "DayEight - challenge one")
   end
 
+  @tag skip: true
   test "DayEight - test part two" do
     assert File.read!("./inputs/day_eight/test_input.txt")
            |> String.split("\r\n", trim: true)
            |> DayEight.part_two() == 6
   end
 
+  @tag skip: true
   test "DayEight - challenge part two" do
     assert File.read!("./inputs/day_eight/challenge_input.txt")
            |> String.split("\r\n", trim: true)

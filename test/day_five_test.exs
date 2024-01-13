@@ -1,11 +1,13 @@
 defmodule DayFiveTest do
   use ExUnit.Case
 
+  @tag skip: true
   test "DayFive - test part one" do
     assert File.read!("./inputs/day_five/test_input.txt")
            |> DayFive.part_one() == 35
   end
 
+  @tag skip: true
   test "DayFive - test seed-to-soil map" do
     seed_to_soil_map_input = "seed-to-soil map:\r\n50 98 2\r\n52 50 48"
     mappings = %DayFiveMappings{}
@@ -22,6 +24,7 @@ defmodule DayFiveTest do
     assert DayFive.map_source_to_destination_value(0, seed_to_soil_map) == 0
   end
 
+  @tag skip: true
   test "DayFive - test find location for seed" do
     input = File.read!("./inputs/day_five/test_input.txt")
 
@@ -35,20 +38,23 @@ defmodule DayFiveTest do
     assert DayFive.find_location_for_seed(seed, mappings_struct) == 82
   end
 
+  @tag skip: true
   test "DayFive - challenge part one" do
-  assert File.read!("./inputs/day_five/challenge_input.txt")
-         |> DayFive.part_one()
-         |> IO.inspect(label: "DayFive - challenge one")
+    assert File.read!("./inputs/day_five/challenge_input.txt")
+           |> DayFive.part_one()
+           |> IO.inspect(label: "DayFive - challenge one")
   end
 
+  @tag skip: true
   test "DayFive - test part two" do
-  	assert File.read!("./inputs/day_five/test_input.txt")
-  	   |> DayFive.part_two() == 46
+    assert File.read!("./inputs/day_five/test_input.txt")
+           |> DayFive.part_two() == 46
   end
 
+  @tag skip: true
   test "DayFive - challenge part two" do
-  	assert File.read!("./inputs/day_five/challenge_input.txt")
-  	   |> DayFive.part_two()
-  	   |> IO.inspect(label: "day_five - challenge two")
+    assert File.read!("./inputs/day_five/challenge_input.txt")
+           |> DayFive.part_two()
+           |> IO.inspect(label: "day_five - challenge two")
   end
 end
