@@ -2,13 +2,7 @@ defmodule DayTwelve do
   def part_one(input) do
     input
     |> Task.async_stream(fn spring_and_counts ->
-      [spring_line, damaged_groups_string] = String.split(spring_and_counts, " ", trim: true)
-
-      damaged_groups =
-        damaged_groups_string
-        |> String.split(",", trim: true)
-        |> Enum.map(&String.to_integer/1)
-
+      {spring_line, damaged_groups} = parse(spring_and_counts)
       count_valid_combinations(spring_line, damaged_groups)
     end)
     |> Enum.reduce(0, fn {:ok, count}, acc -> count + acc end)
@@ -63,6 +57,17 @@ defmodule DayTwelve do
   def count_valid_combinations(spring_line, damaged_groups) do
     generate_all_combinations(spring_line)
     |> Enum.count(&validate_combination(&1, damaged_groups))
+  end
+
+  defp parse(spring_and_counts) do
+    [spring_line, damaged_groups_string] = String.split(spring_and_counts, " ", trim: true)
+
+      damaged_groups =
+        damaged_groups_string
+        |> String.split(",", trim: true)
+        |> Enum.map(&String.to_integer/1)
+
+    {spring_line, damaged_groups}
   end
 
   def part_two(input) do
