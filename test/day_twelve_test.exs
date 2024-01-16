@@ -66,26 +66,26 @@ defmodule DayTwelveTest do
     assert DayTwelve.count_valid_combinations(".??..??...?##.", [1, 1, 3]) == 4
   end
 
-  # @tag skip: true
+  @tag skip: true
   test "DayTwelve - challenge part one" do
   assert File.read!("./inputs/day_twelve/challenge_input.txt")
          |> String.split("\r\n", trim: true)
-         |> DayTwelve.part_one()
-         |> IO.inspect(label: "DayTwelve - challenge one")
+         |> DayTwelve.part_one() == 7032
+        #  |> IO.inspect(label: "DayTwelve - challenge one")
   end
 
   # @tag skip: true
-  # test "DayTwelve - test part two" do
-  # 	assert File.read!("./inputs/day_twelve/test_input.txt")
-  # 	   |> String.split("\r\n", trim: true)
-  # 	   |> DayTwelve.part_two() == 0
-  # end
+  test "DayTwelve - test part two" do
+  	assert File.read!("./inputs/day_twelve/test_input.txt")
+  	   |> String.split("\r\n", trim: true)
+  	   |> AoC2023.Day12.part2() == 525152
+  end
 
   # @tag skip: true
-  # test "DayTwelve - challenge part two" do
-  # 	assert File.read!("./inputs/day_twelve/challenge_input.txt")
-  # 	   |> String.split("\r\n", trim: true)
-  # 	   |> DayTwelve.part_two()
-  # 	   |> IO.inspect(label: "day_twelve - challenge two")
-  # end
+  test "DayTwelve - challenge part two" do
+  	assert File.read!("./inputs/day_twelve/challenge_input.txt")
+  	   |> String.split("\r\n", trim: true)
+  	   |> AoC2023.Day12.part2()
+  	   |> IO.inspect(label: "day_twelve - challenge two")
+  end
 end

@@ -59,7 +59,7 @@ defmodule DayTwelve do
     |> Enum.count(&validate_combination(&1, damaged_groups))
   end
 
-  defp parse(spring_and_counts) do
+  def parse(spring_and_counts) do
     [spring_line, damaged_groups_string] = String.split(spring_and_counts, " ", trim: true)
 
       damaged_groups =
