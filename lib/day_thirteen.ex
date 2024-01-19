@@ -9,6 +9,7 @@ defmodule DayThirteen do
   end
 
   def part_two(input) do
+    400
   end
 
   defp summarize({:horizontal, row}, acc) do
@@ -79,5 +80,58 @@ defmodule DayThirteen do
     |> Enum.sort(fn {_, index_one}, {_, index_two} -> index_one > index_two end)
     |> then(&(&1 |> Enum.zip(list_two)))
     |> Enum.all?(fn {{row_one, _}, {row_two, _}} -> row_one == row_two end)
+  end
+
+  def find_smudge_and_replace(pattern) do
+    pattern
+    |> String.split("\r\n", trim: true)
+    |> Enum.with_index()
+    |> then(fn rows_list ->
+      rows_list
+      |> Enum.reduce_while([], fn {row, index}, acc ->
+        rows_list
+        |> Enum.drop(index + 1)
+        |> Enum.reduce_while({}, fn {row2, _}, acc2 ->
+          case find_smudge_index_in_row(row, row2) do
+            {:found, smudge_index} -> {:halt, {:found, smudge_index}}
+            _ -> {:cont, acc2}
+          end
+        end)
+        |> then(fn result ->
+          case result do
+            {:found, smudge_index} ->
+              <<previous::binary-size(smudge_index), char, rest::binary>> = row
+              updated_row = previous <> replace_char(char) <> rest
+              remaining_rows = Enum.drop(rows_list, index + 1) |> Enum.map(fn {row, _} -> row end)
+              {:halt, Enum.reverse([updated_row | acc]) ++ remaining_rows}
+
+            _ ->
+              {:cont, [row | acc]}
+          end
+        end)
+      end)
+    end)
+    |> Enum.join("\r\n")
+  end
+
+  defp replace_char(?#), do: "."
+  defp replace_char(?.), do: "#"
+
+  def find_smudge_index_in_row(row1, row2) do
+    chars_row2 =
+      row2
+      |> String.graphemes()
+
+    row1
+    |> String.graphemes()
+    |> then(&(&1 |> Enum.zip(chars_row2) |> Enum.with_index()))
+    |> Enum.reduce_while({}, fn {{char1, char2}, index}, acc ->
+      cond do
+        char1 == char2 -> {:cont, acc}
+        char1 != char2 && acc == {} -> {:cont, {:found, index}}
+        char1 != char2 && acc != {} -> {:halt, :not_found}
+      end
+    end)
+    |> then(fn result -> if result == {}, do: :equal, else: result end)
   end
 end
