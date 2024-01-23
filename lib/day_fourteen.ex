@@ -2,9 +2,12 @@ defmodule DayFourteen do
   def part_one(input) do
     input
     |> tilt_platform_to_north()
-    # |> IO.inspect(label: "input")
-
-    136
+    |> Enum.reduce(0, fn {{row, _}, rock}, acc ->
+      case rock do
+        "O" -> length(input) - row + acc
+        _ -> acc
+      end
+    end)
   end
 
   def part_two(input) do

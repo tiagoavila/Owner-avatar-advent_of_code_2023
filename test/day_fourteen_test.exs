@@ -1,7 +1,7 @@
 defmodule DayFourteenTest do
   use ExUnit.Case
 
-	@tag skip: true
+	# @tag skip: true
   test "DayFourteen - test part one" do
     assert File.read!("./inputs/day_fourteen/test_input.txt")
            |> String.split("\r\n", trim: true)
@@ -23,12 +23,12 @@ defmodule DayFourteenTest do
           == "OOOO.#.O..,OO..#....#,OO..O##..O,O..#.OO...,........#.,..#....#.#,..O..#.O.O,..O.......,#....###..,#....#...."
   end
 
-  # test "DayFourteen - challenge part one" do
-  # assert File.read!("./inputs/day_fourteen/challenge_input.txt")
-  #        |> String.split("\r\n", trim: true)
-  #        |> DayFourteen.part_one()
-  #        |> IO.inspect(label: "DayFourteen - challenge one")
-  # end
+  test "DayFourteen - challenge part one" do
+  assert File.read!("./inputs/day_fourteen/challenge_input.txt")
+         |> String.split("\r\n", trim: true)
+         |> DayFourteen.part_one()
+         |> IO.inspect(label: "DayFourteen - challenge one")
+  end
 
   # test "DayFourteen - test part two" do
   # 	assert File.read!("./inputs/day_fourteen/test_input.txt")
