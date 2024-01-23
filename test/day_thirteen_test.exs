@@ -1,7 +1,7 @@
 defmodule DayThirteenTest do
   use ExUnit.Case
 
-  # @tag skip: true
+  @tag skip: true
   test "DayThirteen - test part one" do
     assert File.read!("./inputs/day_thirteen/test_input.txt")
            |> DayThirteen.part_one() == 405
@@ -71,7 +71,7 @@ defmodule DayThirteenTest do
            |> IO.inspect(label: "DayThirteen - challenge one")
   end
 
-  # @tag skip: true
+  @tag skip: true
   test "Find Smudge row" do
     row1 = "#...##..#"
     row2 = "#....#..#"
@@ -89,7 +89,7 @@ defmodule DayThirteenTest do
     assert DayThirteen.find_smudge_index_in_row(row1, row1) == :equal
   end
 
-  # @tag skip: true
+  @tag skip: true
   test "Find Smudge and replace input" do
     input = """
     #...##..#
@@ -107,13 +107,13 @@ defmodule DayThirteenTest do
   @tag skip: true
   test "DayThirteen - test part two" do
   	assert File.read!("./inputs/day_thirteen/test_input.txt")
-  	   |> DayThirteen.part_two() == 400
+  	   |> DayThirteen.p2() == 400
   end
 
-  # test "DayThirteen - challenge part two" do
-  # 	assert File.read!("./inputs/day_thirteen/challenge_input.txt")
-  # 	   |> String.split("\r\n", trim: true)
-  # 	   |> DayThirteen.part_two()
-  # 	   |> IO.inspect(label: "day_thirteen - challenge two")
-  # end
+  @tag skip: true
+  test "DayThirteen - challenge part two" do
+  	assert File.read!("./inputs/day_thirteen/challenge_input.txt")
+  	   |> DayThirteen.p2()
+  	   |> IO.inspect(label: "day_thirteen - challenge two")
+  end
 end
