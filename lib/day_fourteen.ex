@@ -1,4 +1,6 @@
 defmodule DayFourteen do
+  @cycle_count 1_000_000_000
+
   def part_one(input) do
     input
     |> tilt_platform_to_north()
@@ -11,15 +13,56 @@ defmodule DayFourteen do
   end
 
   def part_two(input) do
-    [:north, :west, :south, :east]
-    |> Stream.cycle()
-    |> Enum.take(1_000_000)
-    |> Enum.reduce(input, fn direction, acc ->
-      tilt_platform(acc, direction)
-    end)
-    |> IO.inspect(label: "DayFourteen - part two")
+    key = Murmur.hash_x86_32(input)
+    Process.put(key, 0)
 
-    64
+    1..@cycle_count
+    |> Enum.reduce_while(input, fn count, acc ->
+      result = cycle(acc)
+      key = Murmur.hash_x86_32(result)
+
+      case Process.get(key) do
+        nil ->
+          result
+          |> tap(fn _ -> Process.put(key, count) end)
+          |> then(fn result -> {:cont, result} end)
+
+        loop_start ->
+          {:halt, {loop_start, count}}
+      end
+    end)
+    |> then(fn {loop_start, loop_end} ->
+      cycle_until_beginning_of_loop = apply_cycles(input, loop_start)
+
+      cycles_left = @cycle_count - loop_start
+
+      diff = loop_end - loop_start # number of cycles until loop repeats
+      cycles_left = rem(cycles_left, diff)
+
+      apply_cycles(cycle_until_beginning_of_loop, cycles_left)
+    end)
+    |> Enum.with_index()
+    |> Enum.reduce(0, fn {row, index}, acc ->
+      row
+      |> String.graphemes()
+      |> Enum.count(&(&1 == "O"))
+      |> then(fn rock_count ->
+        (length(input) - index) * rock_count
+      end)
+      |> Kernel.+(acc)
+    end)
+  end
+
+  def apply_cycles(input, count) do
+    1..count
+    |> Enum.reduce(input, fn _, acc -> cycle(acc) end)
+  end
+
+  def cycle(input) do
+    tilt_platform(input, :north)
+    |> tilt_platform(:west)
+    |> tilt_platform(:south)
+    |> tilt_platform(:east)
   end
 
   def tilt_platform_to_north(input) do
