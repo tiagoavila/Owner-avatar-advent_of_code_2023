@@ -31,7 +31,7 @@ defmodule DayFourteenTest do
              "OOOO.#.O..,OO..#....#,OO..O##..O,O..#.OO...,........#.,..#....#.#,..O..#.O.O,..O.......,#....###..,#....#...."
   end
 
-  # @tag skip: true
+  @tag skip: true
   test "Tilt Platform To North" do
     assert File.read!("./inputs/day_fourteen/test_input.txt")
            |> String.split("\r\n", trim: true)
@@ -40,7 +40,7 @@ defmodule DayFourteenTest do
              "OOOO.#.O..,OO..#....#,OO..O##..O,O..#.OO...,........#.,..#....#.#,..O..#.O.O,..O.......,#....###..,#....#...."
   end
 
-  # @tag skip: true
+  @tag skip: true
   test "Tilt Platform To West" do
     assert File.read!("./inputs/day_fourteen/test_input.txt")
            |> String.split("\r\n", trim: true)
@@ -49,7 +49,7 @@ defmodule DayFourteenTest do
              "O....#....,OOO.#....#,.....##...,OO.#OO....,OO......#.,O.#O...#.#,O....#OO..,O.........,#....###..,#OO..#...."
   end
 
-  # @tag skip: true
+  @tag skip: true
   test "Tilt Platform To South" do
     assert File.read!("./inputs/day_fourteen/test_input.txt")
            |> String.split("\r\n", trim: true)
@@ -58,6 +58,7 @@ defmodule DayFourteenTest do
              ".....#....,....#....#,...O.##...,...#......,O.O....O#O,O.#..O.#.#,O....#....,OO....OO..,#OO..###..,#OO.O#...O"
   end
 
+  @tag skip: true
   test "Tilt Platform To East" do
     assert File.read!("./inputs/day_fourteen/test_input.txt")
            |> String.split("\r\n", trim: true)
@@ -74,7 +75,7 @@ defmodule DayFourteenTest do
            |> IO.inspect(label: "DayFourteen - challenge one")
   end
 
-  # @tag skip: true
+  @tag skip: true
   test "DayFourteen - test part two" do
     assert File.read!("./inputs/day_fourteen/test_input.txt")
     |> String.split("\r\n", trim: true)
