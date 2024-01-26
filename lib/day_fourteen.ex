@@ -1,5 +1,6 @@
 defmodule DayFourteen do
   @cycle_count 1_000_000_000
+  @file_path "cycles_log.txt"
 
   def part_one(input) do
     input
@@ -15,6 +16,20 @@ defmodule DayFourteen do
   def part_two(input) do
     key = Murmur.hash_x86_32(input)
     Process.put(key, 0)
+
+    # Code to understand the Loops logic.
+    # This will write to a file the count and the result of each cycle as a hash to simplify the visualization of loops repeatition.
+    # Open the file in append mode
+    # {:ok, file} = File.open(@file_path, [:append, :utf8])
+    # IO.write(file, "Cycle Number: #{0} - Result:#{key}\n")
+
+    # 1..100
+    # |> Enum.reduce(input, fn count, acc ->
+    #   cycle(acc)
+    #   |> tap(fn result -> IO.write(file, "Cycle Number: #{count} - Result:#{Murmur.hash_x86_32(result)}\n") end)
+    # end)
+
+    # File.close(file)
 
     1..@cycle_count
     |> Enum.reduce_while(input, fn count, acc ->
@@ -32,14 +47,14 @@ defmodule DayFourteen do
       end
     end)
     |> then(fn {loop_start, loop_end} ->
-      cycle_until_beginning_of_loop = apply_cycles(input, loop_start)
+      cycle_until_loop_starts = apply_cycles(input, loop_start)
 
       cycles_left = @cycle_count - loop_start
 
       diff = loop_end - loop_start # number of cycles until loop repeats
-      cycles_left = rem(cycles_left, diff)
+      cycles_left = rem(cycles_left, diff) # number of cycles left after all loop repeatitions
 
-      apply_cycles(cycle_until_beginning_of_loop, cycles_left)
+      apply_cycles(cycle_until_loop_starts, cycles_left)
     end)
     |> Enum.with_index()
     |> Enum.reduce(0, fn {row, index}, acc ->

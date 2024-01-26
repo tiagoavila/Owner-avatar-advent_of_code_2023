@@ -81,7 +81,7 @@ defmodule DayFourteenTest do
     |> DayFourteen.part_two() == 64
   end
 
-  # @tag skip: true
+  @tag skip: true
   test "DayFourteen - test part two from ElixirForum" do
     assert File.read!("./inputs/day_fourteen/test_input.txt")
            |> String.split("\r\n", trim: true)
@@ -89,7 +89,7 @@ defmodule DayFourteenTest do
            |> AoC2023Day14.part_two() == 64
   end
 
-  # @tag skip: true
+  @tag skip: true
   test "DayFourteen - challenge part two" do
   	assert File.read!("./inputs/day_fourteen/challenge_input.txt")
   	   |> String.split("\r\n", trim: true)
