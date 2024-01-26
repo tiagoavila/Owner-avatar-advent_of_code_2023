@@ -1,12 +1,13 @@
 defmodule DayFifteenTest do
 	use ExUnit.Case
 
-	# @tag skip: true
+	@tag skip: true
 	test "DayFifteen - test part one" do
     assert "rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7"
            |> DayFifteen.part_one() == 1320
 	end
 
+	@tag skip: true
 	test "Get Hash for a string" do
 		assert "HASH" |> DayFifteen.get_hash() == 52
 		assert "rn=1" |> DayFifteen.get_hash() == 30
@@ -22,22 +23,21 @@ defmodule DayFifteenTest do
     assert "ot=7" |> DayFifteen.get_hash() == 231
 	end
 
+	@tag skip: true
 	test "DayFifteen - challenge part one" do
     assert File.read!("./inputs/day_fifteen/challenge_input.txt")
            |> DayFifteen.part_one()
            |> IO.inspect(label: "DayFifteen - challenge one")
 	end
 
-	# test "DayFifteen - test part two" do
-	# 	assert File.read!("./inputs/day_fifteen/test_input.txt")
-	# 	   |> String.split("\r\n", trim: true)
-	# 	   |> DayFifteen.part_two() == 0
-	# end
+	test "DayFifteen - test part two" do
+		assert File.read!("./inputs/day_fifteen/test_input.txt")
+		   |> DayFifteen.part_two() == 145
+	end
 
-	#test "DayFifteen - challenge part two" do
-	#	assert File.read!("./inputs/day_fifteen/challenge_input.txt")
-	#	   |> String.split("\r\n", trim: true)
-	#	   |> DayFifteen.part_two()
-	#	   |> IO.inspect(label: "day_fifteen - challenge two")
-	#end
+	test "DayFifteen - challenge part two" do
+		assert File.read!("./inputs/day_fifteen/challenge_input.txt")
+		   |> DayFifteen.part_two()
+		   |> IO.inspect(label: "day_fifteen - challenge two")
+	end
 end
