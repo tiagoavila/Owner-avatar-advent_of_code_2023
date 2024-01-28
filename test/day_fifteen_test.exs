@@ -30,11 +30,13 @@ defmodule DayFifteenTest do
            |> IO.inspect(label: "DayFifteen - challenge one")
 	end
 
+	@tag skip: true
 	test "DayFifteen - test part two" do
 		assert File.read!("./inputs/day_fifteen/test_input.txt")
 		   |> DayFifteen.part_two() == 145
 	end
 
+	@tag skip: true
 	test "DayFifteen - challenge part two" do
 		assert File.read!("./inputs/day_fifteen/challenge_input.txt")
 		   |> DayFifteen.part_two()

@@ -36,14 +36,14 @@ defmodule DayFifteen do
     case Regex.run(~r/=/, operation, return: :index) do
       [{index, _}] ->
         <<lens_label::binary-size(index), "=", focal_length::binary>> = operation
-        {:add_box, lens_label, String.to_integer(focal_length)}
+        {:add_lens, lens_label, String.to_integer(focal_length)}
 
       _ ->
-        {:remove_box, String.replace_suffix(operation, "-", "")}
+        {:remove_lens, String.replace_suffix(operation, "-", "")}
     end
   end
 
-  defp process_operation({:add_box, lens_label, focal_length}, boxes) do
+  defp process_operation({:add_lens, lens_label, focal_length}, boxes) do
     box = get_hash(lens_label)
 
     case Map.get(boxes, box) do
@@ -57,7 +57,7 @@ defmodule DayFifteen do
     end
   end
 
-  defp process_operation({:remove_box, lens_label}, boxes) do
+  defp process_operation({:remove_lens, lens_label}, boxes) do
     box = get_hash(lens_label)
 
     case Map.get(boxes, box) do
