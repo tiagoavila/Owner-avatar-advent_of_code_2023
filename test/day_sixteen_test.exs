@@ -14,16 +14,16 @@ defmodule DaySixteenTest do
            |> IO.inspect(label: "DaySixteen - challenge one")
 	end
 
-	# test "DaySixteen - test part two" do
-	# 	assert File.read!("./inputs/day_sixteen/test_input.txt")
-	# 	   |> String.split("\r\n", trim: true)
-	# 	   |> DaySixteen.part_two() == 0
-	# end
+	test "DaySixteen - test part two" do
+		assert File.read!("./inputs/day_sixteen/test_input.txt")
+		   |> String.split("\r\n", trim: true)
+		   |> DaySixteen.part_two() == 51
+	end
 
-	#test "DaySixteen - challenge part two" do
-	#	assert File.read!("./inputs/day_sixteen/challenge_input.txt")
-	#	   |> String.split("\r\n", trim: true)
-	#	   |> DaySixteen.part_two()
-	#	   |> IO.inspect(label: "day_sixteen - challenge two")
-	#end
+	test "DaySixteen - challenge part two" do
+		assert File.read!("./inputs/day_sixteen/challenge_input.txt")
+		   |> String.split("\r\n", trim: true)
+		   |> DaySixteen.part_two()
+		   |> IO.inspect(label: "day_sixteen - challenge two")
+	end
 end

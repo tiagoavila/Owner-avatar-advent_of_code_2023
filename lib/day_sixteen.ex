@@ -10,10 +10,21 @@ defmodule DaySixteen do
     |> then(fn tiles_map ->
       process_beam(tiles_map[{0, 0}], {0, 0}, @right, tiles_map, [], MapSet.new())
     end)
-    |> Enum.count()
   end
 
   def part_two(input) do
+    len = length(input)
+    tiles_map = parse_to_map(input)
+
+    Enum.map(0..(len - 1), fn row -> {row, 0, @right} end)
+    |> Kernel.++(Enum.map(0..(len - 1), fn col -> {0, col, @bottom} end))
+    |> Kernel.++(Enum.map(0..(len - 1), fn row -> {row, len - 1, @left} end))
+    |> Kernel.++(Enum.map(0..(len - 1), fn col -> {len - 1, col, @top} end))
+    |> Task.async_stream(fn {row, col, dir} ->
+      process_beam(tiles_map[{row, col}], {row, col}, dir, tiles_map, [], MapSet.new())
+    end)
+    |> Enum.max_by(fn {:ok, steps} -> steps end)
+    |> then(fn {:ok, steps} -> steps end)
   end
 
   defp parse_to_map(input) do
@@ -29,7 +40,7 @@ defmodule DaySixteen do
     end)
   end
 
-  defp process_beam(nil, _, _, _, [], visited), do: visited
+  defp process_beam(nil, _, _, _, [], visited), do: visited |> MapSet.size()
 
   defp process_beam(nil, _, _, tiles_map, queue, visited) do
     [{row, col, dir} | tail] = queue
