@@ -64,18 +64,18 @@ defmodule DaySeventeen do
     end
   end
 
-  defp get_next_blocks(map, {row, col}, direction, total_heat_loss, remaining_steps) do
+  defp get_next_blocks(map, {row, col}, direction, total_heat_loss, remaining_steps, max_steps_number \\ 3) do
     get_side_blocks_pos({row, col}, direction)
     |> Enum.reduce([], fn {side_pos, dir}, acc ->
       case Map.get(map, side_pos) do
         nil -> acc
-        side_block -> [{side_block + total_heat_loss, {side_pos, dir, 2}} | acc]
+        side_block -> [{side_block + total_heat_loss, {side_pos, dir, max_steps_number}} | acc]
       end
     end)
     |> maybe_get_in_front_block(map, {row, col}, direction, total_heat_loss, remaining_steps)
   end
 
-  defp maybe_get_in_front_block(next_blocks, _, _, _, _, 0), do: next_blocks
+  defp maybe_get_in_front_block(next_blocks, _, _, _, _, 1), do: next_blocks
 
   defp maybe_get_in_front_block(
          next_blocks,
