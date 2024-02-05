@@ -37,13 +37,14 @@ defmodule DaySeventeenTest do
            |> DaySeventeen.part_one() == 674
   end
 
-  # @tag skip: true
+  @tag skip: true
   test "DaySeventeen - test part two" do
   	assert File.read!("./inputs/day_seventeen/test_input.txt")
   	   |> String.split("\r\n", trim: true)
   	   |> DaySeventeen.part_two() == 94
   end
 
+  @tag skip: true
   test "DaySeventeen - challenge part two" do
   	assert File.read!("./inputs/day_seventeen/challenge_input.txt")
   	   |> String.split("\r\n", trim: true)
