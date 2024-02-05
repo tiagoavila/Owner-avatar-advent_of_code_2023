@@ -10,8 +10,8 @@ defmodule DaySeventeen do
     |> then(fn map ->
       priority_queue =
         PriorityQueue.new()
-        |> PriorityQueue.put(map[{0, 1}], {{0, 1}, @right, 2})
-        |> PriorityQueue.put(map[{1, 0}], {{1, 0}, @bottom, 2})
+        |> PriorityQueue.put(map[{0, 1}], {{0, 1}, @right, 3})
+        |> PriorityQueue.put(map[{1, 0}], {{1, 0}, @bottom, 3})
 
       input_length = length(input)
       target = {input_length - 1, input_length - 1}
@@ -21,6 +21,19 @@ defmodule DaySeventeen do
   end
 
   def part_two(input) do
+    input
+    |> Helper.parse_list_of_lists_to_map(&String.to_integer(&1))
+    |> then(fn map ->
+      priority_queue =
+        PriorityQueue.new()
+        |> PriorityQueue.put(map[{0, 1}], {{0, 1}, @right, 10})
+        |> PriorityQueue.put(map[{1, 0}], {{1, 0}, @bottom, 10})
+
+      input_length = length(input)
+      target = {input_length - 1, input_length - 1}
+
+      move_p2(map, priority_queue, MapSet.new(), target)
+    end)
   end
 
   defp move(map, priority_queue, seen, target) do
@@ -37,10 +50,58 @@ defmodule DaySeventeen do
           seen = MapSet.put(seen, {current_pos, direction, remaining_steps})
 
           priority_queue =
-            get_next_blocks(map, current_pos, direction, total_heat_loss, remaining_steps)
+            get_side_blocks(map, current_pos, direction, total_heat_loss)
+            |> maybe_get_in_front_block(
+              map,
+              current_pos,
+              direction,
+              total_heat_loss,
+              remaining_steps
+            )
             |> push_blocks_to_priority_queue(priority_queue, seen)
 
           move(map, priority_queue, seen, target)
+        end
+
+      {nil, nil} ->
+        nil
+    end
+  end
+
+  defp move_p2(map, priority_queue, seen, target) do
+    {current_block, priority_queue} = PriorityQueue.pop(priority_queue)
+
+    case current_block do
+      {total_heat_loss, {^target, _, _}} ->
+        total_heat_loss
+
+      {total_heat_loss, {current_pos, direction, remaining_steps}} ->
+        if MapSet.member?(seen, {current_pos, direction, remaining_steps}) do
+          move_p2(map, priority_queue, seen, target)
+        else
+          seen = MapSet.put(seen, {current_pos, direction, remaining_steps})
+
+          {max_pos, _} = target
+
+          priority_queue =
+            get_side_blocks_p2(
+              map,
+              current_pos,
+              direction,
+              total_heat_loss,
+              remaining_steps,
+              max_pos
+            )
+            |> maybe_get_in_front_block(
+              map,
+              current_pos,
+              direction,
+              total_heat_loss,
+              remaining_steps
+            )
+            |> push_blocks_to_priority_queue(priority_queue, seen)
+
+          move_p2(map, priority_queue, seen, target)
         end
 
       {nil, nil} ->
@@ -57,14 +118,14 @@ defmodule DaySeventeen do
         [{{row, col - 1}, @left}, {{row, col + 1}, @right}]
 
       direction == @left ->
-          [{{row + 1, col}, @bottom}]
+        [{{row + 1, col}, @bottom}]
 
       direction == @right ->
         [{{row - 1, col}, @top}, {{row + 1, col}, @bottom}]
     end
   end
 
-  defp get_next_blocks(map, {row, col}, direction, total_heat_loss, remaining_steps, max_steps_number \\ 3) do
+  defp get_side_blocks(map, {row, col}, direction, total_heat_loss, max_steps_number \\ 3) do
     get_side_blocks_pos({row, col}, direction)
     |> Enum.reduce([], fn {side_pos, dir}, acc ->
       case Map.get(map, side_pos) do
@@ -72,7 +133,22 @@ defmodule DaySeventeen do
         side_block -> [{side_block + total_heat_loss, {side_pos, dir, max_steps_number}} | acc]
       end
     end)
-    |> maybe_get_in_front_block(map, {row, col}, direction, total_heat_loss, remaining_steps)
+  end
+
+  defp get_side_blocks_p2(map, {row, col}, direction, total_heat_loss, remaining_steps, max_pos) do
+    case 10 - remaining_steps >= 3 do
+      true ->
+        get_side_blocks_pos({row, col}, direction)
+        |> Enum.reduce([], fn {side_pos, dir}, acc ->
+          case Map.get(map, side_pos) do
+            nil -> acc
+            side_block -> [{side_block + total_heat_loss, {side_pos, dir, 10}} | acc]
+          end
+        end)
+
+      _ ->
+        []
+    end
   end
 
   defp maybe_get_in_front_block(next_blocks, _, _, _, _, 1), do: next_blocks
@@ -92,7 +168,10 @@ defmodule DaySeventeen do
         next_blocks
 
       front_block ->
-        [{front_block + total_heat_loss, {front_block_pos, dir, remaining_steps - 1}} | next_blocks]
+        [
+          {front_block + total_heat_loss, {front_block_pos, dir, remaining_steps - 1}}
+          | next_blocks
+        ]
     end
   end
 
@@ -108,40 +187,41 @@ defmodule DaySeventeen do
 
   def parse_input() do
     input1 = """
-2413432311323
-3215453535623
-3255245654254
-3446585845452
-4546657867536
-1438598798454
-4457876987766
-3637877979653
-4654967986887
-4564679986453
-1224686865563
-2546548887735
-4322674655533
-"""
+    2413432311323
+    3215453535623
+    3255245654254
+    3446585845452
+    4546657867536
+    1438598798454
+    4457876987766
+    3637877979653
+    4654967986887
+    4564679986453
+    1224686865563
+    2546548887735
+    4322674655533
+    """
 
     input2 = """
-2>>34^>>>1323
-32v>>>35v5623
-32552456v>>54
-3446585845v52
-4546657867v>6
-14385987984v4
-44578769877v6
-36378779796v>
-465496798688v
-456467998645v
-12246868655<v
-25465488877v5
-43226746555v>
-"""
+    2>>>>>>>>1323
+    32154535v5623
+    32552456v4254
+    34465858v5452
+    45466578v>>>>
+    143859879845v
+    445787698776v
+    363787797965v
+    465496798688v
+    456467998645v
+    122468686556v
+    254654888773v
+    432267465553v
+    """
 
     file_path = "example.txt"
 
     input2_map = input2 |> String.split("\n", trim: true) |> Helper.parse_list_of_lists_to_map()
+
     input1
     |> String.split("\r\n", trim: true)
     |> Enum.with_index()
@@ -162,6 +242,5 @@ defmodule DaySeventeen do
         {:error, reason} -> IO.puts("Failed to write to file: #{reason}")
       end
     end)
-
   end
 end
