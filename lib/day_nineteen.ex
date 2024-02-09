@@ -9,9 +9,8 @@ defmodule DayNineteen do
 		part_ratings
 		|> String.split("\r\n", trim: true)
 		|> Task.async_stream(fn part_rating ->
-			workflow = "in"
 			part_rating = parse_part_rating_to_map(part_rating)
-			result = process_workflow(workflow, part_rating, workflows_map)
+			result = process_workflow("in", part_rating, workflows_map)
 			{part_rating, result}
 		end)
 		|> Enum.filter(fn {:ok, {_, result}} -> result == "A" end)
