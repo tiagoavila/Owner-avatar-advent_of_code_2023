@@ -1,6 +1,13 @@
 defmodule DayEighteen do
   @directions [{-1, 0}, {0, -1}, {1, 0}, {0, 1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}]
 
+  @deltas %{
+    "0" => {0, 1},
+    "1" => {1, 0},
+    "2" => {0, -1},
+    "3" => {-1, 0}
+  }
+
   def part_one(input) do
     input
     |> Enum.map(fn line ->
@@ -16,18 +23,14 @@ defmodule DayEighteen do
   def part_two(input) do
     input
     |> Enum.map(fn line ->
-      <<hex_value::binary-size(5), dir_char::binary>> = Regex.replace(~r/^.+\(#(\w+)\)/, line, "\\1")
+      <<hex_value::binary-size(5), dir_char::binary>> =
+        Regex.replace(~r/^.+\(#(\w+)\)/, line, "\\1")
 
       {meters, _} = Integer.parse(hex_value, 16)
 
-      case dir_char do
-        "0" -> {"R", meters}
-        "1" -> {"D", meters}
-        "2" -> {"L", meters}
-        "3" -> {"U", meters}
-      end
+      {dir_char, meters}
     end)
-    |> dig()
+    |> dig_part2()
   end
 
   defp dig(input) do
@@ -68,6 +71,44 @@ defmodule DayEighteen do
     end)
     |> Map.keys()
     |> Enum.count()
+  end
+
+  defp dig_part2(input) do
+    origin = {0, 0}
+
+    segments =
+      input
+      |> Enum.map_reduce(origin, fn {dir, meters}, {last_row, last_col} ->
+        {dy, dx} = @deltas[dir]
+        new_item = {last_row + meters * dy, last_col + meters * dx}
+        # The line above does the same as my case statement below, very cool!
+        # new_item =
+        #   case dir do
+        #     "R" -> {last_row, last_col + meters}
+        #     "L" -> {last_row, last_col - meters}
+        #     "D" -> {last_row + meters, last_col}
+        #     "U" -> {last_row - meters, last_col}
+        #   end
+
+        {new_item, new_item}
+      end)
+      |> then(fn {coords, _} -> [origin | coords] end)
+      |> Enum.chunk_every(2, 1, :discard)
+
+    area =
+      segments
+      |> Enum.map(fn [{y1, x1}, {y2, x2}] -> y1 * x2 - x1 * y2 end)
+      |> Enum.sum()
+      |> abs()
+      |> div(2)
+
+    perimeter =
+      segments
+      |> Enum.map(fn [{y1, x1}, {y2, x2}] -> abs(y2 - y1) + abs(x2 - x1) end)
+      |> Enum.sum()
+      |> div(2)
+
+    area + perimeter + 1
   end
 
   defp flood_fill([], dig_map), do: dig_map
