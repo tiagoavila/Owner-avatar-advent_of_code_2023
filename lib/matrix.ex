@@ -4,7 +4,8 @@ defmodule Matrix do
     |> Enum.map(&Enum.reverse/1)
   end
 
-  def attach_row([], result) do  # handle ending case first
+  # handle ending case first
+  def attach_row([], result) do
     result
   end
 
@@ -13,7 +14,8 @@ defmodule Matrix do
     attach_row(other_rows, new_result)
   end
 
-  def make_column([], result) do # my job here is done
+  # my job here is done
+  def make_column([], result) do
     result
   end
 

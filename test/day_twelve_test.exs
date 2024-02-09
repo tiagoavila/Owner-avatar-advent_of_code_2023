@@ -70,24 +70,25 @@ defmodule DayTwelveTest do
 
   @tag skip: true
   test "DayTwelve - challenge part one" do
-  assert File.read!("./inputs/day_twelve/challenge_input.txt")
-         |> String.split("\r\n", trim: true)
-         |> DayTwelve.part_one() == 7032
-        #  |> IO.inspect(label: "DayTwelve - challenge one")
+    assert File.read!("./inputs/day_twelve/challenge_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> DayTwelve.part_one() == 7032
+
+    #  |> IO.inspect(label: "DayTwelve - challenge one")
   end
 
   @tag skip: true
   test "DayTwelve - test part two" do
-  	assert File.read!("./inputs/day_twelve/test_input.txt")
-  	   |> String.split("\r\n", trim: true)
-  	   |> AoC2023.Day12.part2() == 525152
+    assert File.read!("./inputs/day_twelve/test_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> AoC2023.Day12.part2() == 525_152
   end
 
   @tag skip: true
   test "DayTwelve - challenge part two" do
-  	assert File.read!("./inputs/day_twelve/challenge_input.txt")
-  	   |> String.split("\r\n", trim: true)
-  	   |> AoC2023.Day12.part2()
-  	   |> IO.inspect(label: "day_twelve - challenge two")
+    assert File.read!("./inputs/day_twelve/challenge_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> AoC2023.Day12.part2()
+           |> IO.inspect(label: "day_twelve - challenge two")
   end
 end

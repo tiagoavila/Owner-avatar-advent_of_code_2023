@@ -17,8 +17,8 @@ defmodule DayFifteen do
       get_operation_type(operation)
       |> process_operation(acc)
     end)
-		|> Enum.map(&get_focusing_power/1)
-		|> Enum.sum()
+    |> Enum.map(&get_focusing_power/1)
+    |> Enum.sum()
   end
 
   def get_hash(string) do
@@ -85,15 +85,16 @@ defmodule DayFifteen do
     end
   end
 
-	defp get_focusing_power({_, []}), do: 0
-	defp get_focusing_power({box, box_content}) do
-		box_value = 1 + box
+  defp get_focusing_power({_, []}), do: 0
 
-		box_content
-		|> Enum.with_index(1)
-		|> Enum.reduce(0, fn {{_, focal_length}, slot_number}, acc ->
-			lens_power = box_value * slot_number * focal_length
-			acc + lens_power
-		end)
-	end
+  defp get_focusing_power({box, box_content}) do
+    box_value = 1 + box
+
+    box_content
+    |> Enum.with_index(1)
+    |> Enum.reduce(0, fn {{_, focal_length}, slot_number}, acc ->
+      lens_power = box_value * slot_number * focal_length
+      acc + lens_power
+    end)
+  end
 end

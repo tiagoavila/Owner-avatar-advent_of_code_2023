@@ -51,8 +51,10 @@ defmodule DayFourteen do
 
       cycles_left = @cycle_count - loop_start
 
-      diff = loop_end - loop_start # number of cycles until loop repeats
-      cycles_left = rem(cycles_left, diff) # number of cycles left after all loop repeatitions
+      # number of cycles until loop repeats
+      diff = loop_end - loop_start
+      # number of cycles left after all loop repeatitions
+      cycles_left = rem(cycles_left, diff)
 
       apply_cycles(cycle_until_loop_starts, cycles_left)
     end)

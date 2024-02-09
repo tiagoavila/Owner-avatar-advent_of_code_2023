@@ -1,5 +1,5 @@
 defmodule Helper do
-  def parse_list_of_lists_to_map(input, parser_function \\ &(&1)) do
+  def parse_list_of_lists_to_map(input, parser_function \\ & &1) do
     input
     |> Enum.with_index()
     |> Enum.reduce(%{}, fn {line, row_idx}, acc ->

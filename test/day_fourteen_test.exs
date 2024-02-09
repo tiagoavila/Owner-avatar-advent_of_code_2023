@@ -78,8 +78,8 @@ defmodule DayFourteenTest do
   @tag skip: true
   test "DayFourteen - test part two" do
     assert File.read!("./inputs/day_fourteen/test_input.txt")
-    |> String.split("\r\n", trim: true)
-    |> DayFourteen.part_two() == 64
+           |> String.split("\r\n", trim: true)
+           |> DayFourteen.part_two() == 64
   end
 
   @tag skip: true
@@ -92,9 +92,9 @@ defmodule DayFourteenTest do
 
   @tag skip: true
   test "DayFourteen - challenge part two" do
-  	assert File.read!("./inputs/day_fourteen/challenge_input.txt")
-  	   |> String.split("\r\n", trim: true)
-  	   |> DayFourteen.part_two()
-  	   |> IO.inspect(label: "day_fourteen - challenge two")
+    assert File.read!("./inputs/day_fourteen/challenge_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> DayFourteen.part_two()
+           |> IO.inspect(label: "day_fourteen - challenge two")
   end
 end

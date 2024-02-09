@@ -39,16 +39,16 @@ defmodule DaySeventeenTest do
 
   @tag skip: true
   test "DaySeventeen - test part two" do
-  	assert File.read!("./inputs/day_seventeen/test_input.txt")
-  	   |> String.split("\r\n", trim: true)
-  	   |> DaySeventeen.part_two() == 94
+    assert File.read!("./inputs/day_seventeen/test_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> DaySeventeen.part_two() == 94
   end
 
   @tag skip: true
   test "DaySeventeen - challenge part two" do
-  	assert File.read!("./inputs/day_seventeen/challenge_input.txt")
-  	   |> String.split("\r\n", trim: true)
-  	   |> DaySeventeen.part_two()
-  	   |> IO.inspect(label: "day_seventeen - challenge two")
+    assert File.read!("./inputs/day_seventeen/challenge_input.txt")
+           |> String.split("\r\n", trim: true)
+           |> DaySeventeen.part_two()
+           |> IO.inspect(label: "day_seventeen - challenge two")
   end
 end

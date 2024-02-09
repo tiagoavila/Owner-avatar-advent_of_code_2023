@@ -1,7 +1,6 @@
 defmodule MatrixTest do
   use ExUnit.Case
 
-
   test "Transpose Matrix" do
     input = [
       [1, 2, 3],

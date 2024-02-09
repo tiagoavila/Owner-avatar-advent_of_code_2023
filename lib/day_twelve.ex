@@ -62,10 +62,10 @@ defmodule DayTwelve do
   def parse(spring_and_counts) do
     [spring_line, damaged_groups_string] = String.split(spring_and_counts, " ", trim: true)
 
-      damaged_groups =
-        damaged_groups_string
-        |> String.split(",", trim: true)
-        |> Enum.map(&String.to_integer/1)
+    damaged_groups =
+      damaged_groups_string
+      |> String.split(",", trim: true)
+      |> Enum.map(&String.to_integer/1)
 
     {spring_line, damaged_groups}
   end

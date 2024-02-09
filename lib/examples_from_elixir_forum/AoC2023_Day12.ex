@@ -1,7 +1,7 @@
 defmodule AoC2023.Day12 do
   import DayTwelve, only: [parse: 1]
 
-@moduledoc """
+  @moduledoc """
   Documentation for `AocDayTwelve`.
   """
 
@@ -168,5 +168,4 @@ defmodule AoC2023.Day12 do
       result -> {result, memo}
     end
   end
-
 end

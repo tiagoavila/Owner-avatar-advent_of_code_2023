@@ -106,14 +106,14 @@ defmodule DayThirteenTest do
 
   @tag skip: true
   test "DayThirteen - test part two" do
-  	assert File.read!("./inputs/day_thirteen/test_input.txt")
-  	   |> DayThirteen.p2() == 400
+    assert File.read!("./inputs/day_thirteen/test_input.txt")
+           |> DayThirteen.p2() == 400
   end
 
   @tag skip: true
   test "DayThirteen - challenge part two" do
-  	assert File.read!("./inputs/day_thirteen/challenge_input.txt")
-  	   |> DayThirteen.p2()
-  	   |> IO.inspect(label: "day_thirteen - challenge two")
+    assert File.read!("./inputs/day_thirteen/challenge_input.txt")
+           |> DayThirteen.p2()
+           |> IO.inspect(label: "day_thirteen - challenge two")
   end
 end
