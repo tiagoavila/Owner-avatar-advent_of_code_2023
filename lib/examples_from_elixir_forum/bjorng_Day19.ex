@@ -7,7 +7,7 @@ defmodule Day19 do
     |> Enum.map(fn part ->
       Enum.sum(Map.values(part))
     end)
-    |> Enum.sum
+    |> Enum.sum()
   end
 
   defp execute(workflows, part) do
@@ -21,8 +21,9 @@ defmodule Day19 do
 
   defp execute_rules([{condition, action} | rules], workflows, part) do
     case condition do
-      {op,var,arg} ->
+      {op, var, arg} ->
         apply(:erlang, op, [Map.fetch!(part, var), arg])
+
       true ->
         true
     end
@@ -41,14 +42,15 @@ defmodule Day19 do
 
   def part2(input) do
     {workflows, _parts} = parse(input)
+
     part2_execute(workflows)
     |> Enum.map(fn part ->
       Enum.map(part, fn {_key, list} ->
         length(list)
       end)
-      |> Enum.product
+      |> Enum.product()
     end)
-    |> Enum.sum
+    |> Enum.sum()
   end
 
   defp part2_execute(workflows) do
@@ -64,13 +66,15 @@ defmodule Day19 do
 
   defp part2_execute_rules([{condition, action} | rules], workflows, part) do
     case condition do
-      {op,var,arg} ->
+      {op, var, arg} ->
         values = Map.fetch!(part, var)
         {vs1, vs2} = Enum.split_with(values, &apply(:erlang, op, [&1, arg]))
         part_true = Map.put(part, var, vs1)
         part_false = Map.put(part, var, vs2)
+
         part2_execute_rules(rules, workflows, part_false) ++
           part2_execute_action(action, workflows, part_true)
+
       true ->
         part2_execute_action(action, workflows, part)
     end
@@ -87,37 +91,42 @@ defmodule Day19 do
   defp parse(input) do
     [workflows, parts] = input
 
-    workflows = workflows
-    |> String.split("\r\n", trim: true)
-    |> Enum.map(fn line ->
-      [name, rules] = String.split(line, ["{", "}"], trim: true)
-      name = String.to_atom(name)
-      rules = String.split(rules, ",")
-      |> Enum.map(fn rule ->
-        case String.split(rule, ":") do
-          [condition, workflow] ->
-            <<var, op, integer :: binary>> = condition
-            condition = {List.to_atom([op]), List.to_atom([var]),
-                         String.to_integer(integer)}
-            {condition, String.to_atom(workflow)}
-          [workflow] ->
-            {true, String.to_atom(workflow)}
-        end
-      end)
-      {name, rules}
-    end)
-    |> Map.new
+    workflows =
+      workflows
+      |> String.split("\r\n", trim: true)
+      |> Enum.map(fn line ->
+        [name, rules] = String.split(line, ["{", "}"], trim: true)
+        name = String.to_atom(name)
 
-    parts = parts
-    |> String.split("\r\n", trim: true)
-    |> Enum.map(fn line ->
-      String.split(line, ["{", ",", "}"], trim: true)
-      |> Enum.map(fn part ->
-        [var, integer] = String.split(part, "=")
-        {String.to_atom(var), String.to_integer(integer)}
+        rules =
+          String.split(rules, ",")
+          |> Enum.map(fn rule ->
+            case String.split(rule, ":") do
+              [condition, workflow] ->
+                <<var, op, integer::binary>> = condition
+                condition = {List.to_atom([op]), List.to_atom([var]), String.to_integer(integer)}
+                {condition, String.to_atom(workflow)}
+
+              [workflow] ->
+                {true, String.to_atom(workflow)}
+            end
+          end)
+
+        {name, rules}
       end)
-      |> Map.new
-    end)
+      |> Map.new()
+
+    parts =
+      parts
+      |> String.split("\r\n", trim: true)
+      |> Enum.map(fn line ->
+        String.split(line, ["{", ",", "}"], trim: true)
+        |> Enum.map(fn part ->
+          [var, integer] = String.split(part, "=")
+          {String.to_atom(var), String.to_integer(integer)}
+        end)
+        |> Map.new()
+      end)
 
     {workflows, parts}
   end

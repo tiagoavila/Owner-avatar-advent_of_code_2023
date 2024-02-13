@@ -5,7 +5,6 @@ defmodule MidouestDay19Part2 do
       |> parse()
 
     acceptance(workflows)
-    |> IO.inspect(label: "branches")
     |> Enum.map(fn rating ->
       rating
       |> Map.values()

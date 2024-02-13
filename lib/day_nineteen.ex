@@ -28,40 +28,61 @@ defmodule DayNineteen do
       |> String.split("\r\n\r\n", trim: true)
 
     workflows_map = parse_workflows_to_map(workflows)
-    process_workflow_p2("in", %{"x" => {1, 4000}, "m" => {1, 4000}, "a" => {1, 4000}, "s" => {1, 4000}}, workflows_map, [])
+
+    process_workflow_p2(
+      "in",
+      %{"x" => {1, 4000}, "m" => {1, 4000}, "a" => {1, 4000}, "s" => {1, 4000}},
+      workflows_map,
+      []
+    )
+    |> Enum.map(fn rating ->
+      rating
+      |> Map.values()
+      |> Enum.map(fn {lo, hi} -> hi - lo + 1 end)
+      |> Enum.product()
+    end)
+    |> Enum.sum()
   end
 
   def process_workflow_p2("A", part_rating, _, accepted_ratings), do: [part_rating | accepted_ratings]
+
   def process_workflow_p2("R", _, _, accepted_ratings), do: accepted_ratings
 
-  def process_workflow_p2(workflow_name, part_rating, workflows_map, accepted_ratings) do
-    workflows_map[workflow_name]
-    |> Enum.reduce(accepted_ratings, fn workflow, acc ->
-      case workflow do
-        {cat, comparer, value, next_workflow} ->
-          {lo, hi} = part_rating[cat]
+  def process_workflow_p2(<<workflow_name::binary>>, part_rating, workflows_map, accepted_ratings), do:
+    process_workflow_p2(workflows_map[workflow_name], part_rating, workflows_map, accepted_ratings)
 
-          case comparer do
-            "<" ->
-              new_hi = value - 1
+  def process_workflow_p2(
+        [{cat, comparer, value, next_workflow} | rest],
+        part_rating,
+        workflows_map,
+        accepted_ratings
+      ) do
+    {lo, hi} = part_rating[cat]
 
-              left_part_rating = Map.replace(part_rating, cat, {lo, new_hi})
-              right_part_rating = Map.replace(part_rating, cat, {value, hi})
+    case comparer do
+      "<" ->
+        new_hi = min(value - 1, hi)
 
-              process_workflow_p2(next_workflow, left_part_rating, workflows_map, acc)
-              ++ process_workflow_p2(next_workflow, right_part_rating, workflows_map, acc)
+        cond_true_part_rating = Map.replace(part_rating, cat, {lo, new_hi})
+        cond_false_part_rating = Map.replace(part_rating, cat, {value, hi})
 
-            ">" ->
-              if part_rating[cat] > value do
-                process_workflow_p2(next_workflow, part_rating, workflows_map, acc)
-              else
-                acc
-              end
-          end
-        {next_workflow} -> process_workflow_p2(next_workflow, part_rating, workflows_map, acc)
-      end
-    end)
+        process_workflow_p2(next_workflow, cond_true_part_rating, workflows_map, accepted_ratings)
+          ++ process_workflow_p2(rest, cond_false_part_rating, workflows_map, accepted_ratings)
+
+      ">" ->
+        new_lo = max(value + 1, lo)
+
+        cond_true_part_rating = Map.replace(part_rating, cat, {new_lo, hi})
+        cond_false_part_rating = Map.replace(part_rating, cat, {lo, value})
+
+        process_workflow_p2(next_workflow, cond_true_part_rating, workflows_map, accepted_ratings)
+          ++ process_workflow_p2(rest, cond_false_part_rating, workflows_map, accepted_ratings)
+    end
   end
+
+  def process_workflow_p2([{next_workflow}], part_rating, workflows_map, accepted_ratings), do:
+    process_workflow_p2(next_workflow, part_rating, workflows_map, accepted_ratings)
+
 
   def process_workflow("A", _, _), do: "A"
   def process_workflow("R", _, _), do: "R"
