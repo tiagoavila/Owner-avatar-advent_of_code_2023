@@ -19,19 +19,18 @@ defmodule DayTwenty do
           {_module_type, destination_modules, _state} = value
 
           Enum.reduce(destination_modules, acc, fn destination_module, acc ->
-						destination_module_key = String.to_existing_atom(destination_module)
-
-            case Map.get(acc, destination_module_key) do
+            case Map.get(acc, destination_module) do
               {:conjunction, _, _} ->
-                Map.update!(acc, destination_module_key, fn {type, destinations, state} ->
-                  {type, destinations, [{module_name, :off} | state]}
+                Map.update!(acc, destination_module, fn {type, destinations, module_state} ->
+                  updated_module_state = Map.put(module_state, module_name, :low)
+                  {type, destinations, updated_module_state}
                 end)
 
               {:flip_flop, _, _} ->
                 acc
 
               nil ->
-                Map.put(acc, String.to_atom(destination_module), {:untyped})
+                Map.put(acc, destination_module, {:untyped})
             end
           end)
         end
@@ -47,10 +46,10 @@ defmodule DayTwenty do
         {:broadcaster, String.split(destination_modules, ", ")}
 
       <<"%", name::binary>> ->
-        {String.to_atom(name), {:flip_flop, String.split(destination_modules, ", "), :off}}
+        {String.to_atom(name), {:flip_flop, String.split(destination_modules, ", ") |> Enum.map(&String.to_atom/1), :off}}
 
       <<"&", name::binary>> ->
-        {String.to_atom(name), {:conjunction, String.split(destination_modules, ", "), []}}
+        {String.to_atom(name), {:conjunction, String.split(destination_modules, ", ") |> Enum.map(&String.to_atom/1), %{}}}
     end
   end
 end
