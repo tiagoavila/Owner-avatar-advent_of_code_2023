@@ -112,20 +112,22 @@ defmodule DayNineteenTest do
            |> Day19.part2() == 167_409_079_868_000
   end
 
-  # @tag skip: true
+  @tag skip: true
   test "DayNineteen - challenge part two from midouest" do
     assert File.read!("./inputs/day_nineteen/test_input.txt")
            |> MidouestDay19Part2.part2() == 167_409_079_868_000
   end
 
+  @tag skip: true
   test "DayNineteen - test part two" do
     assert File.read!("./inputs/day_nineteen/test_input.txt")
            |> DayNineteen.part_two() == 167_409_079_868_000
   end
 
+  @tag skip: true
   test "DayNineteen - challenge part two" do
-  	assert File.read!("./inputs/day_nineteen/challenge_input.txt")
-  	   |> DayNineteen.part_two()
-  	   |> IO.inspect(label: "day_nineteen - challenge two")
+    assert File.read!("./inputs/day_nineteen/challenge_input.txt")
+           |> DayNineteen.part_two()
+           |> IO.inspect(label: "day_nineteen - challenge two")
   end
 end

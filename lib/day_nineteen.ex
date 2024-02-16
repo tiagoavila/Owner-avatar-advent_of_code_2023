@@ -44,12 +44,24 @@ defmodule DayNineteen do
     |> Enum.sum()
   end
 
-  def process_workflow_p2("A", part_rating, _, accepted_ratings), do: [part_rating | accepted_ratings]
+  def process_workflow_p2("A", part_rating, _, accepted_ratings),
+    do: [part_rating | accepted_ratings]
 
   def process_workflow_p2("R", _, _, accepted_ratings), do: accepted_ratings
 
-  def process_workflow_p2(<<workflow_name::binary>>, part_rating, workflows_map, accepted_ratings), do:
-    process_workflow_p2(workflows_map[workflow_name], part_rating, workflows_map, accepted_ratings)
+  def process_workflow_p2(
+        <<workflow_name::binary>>,
+        part_rating,
+        workflows_map,
+        accepted_ratings
+      ),
+      do:
+        process_workflow_p2(
+          workflows_map[workflow_name],
+          part_rating,
+          workflows_map,
+          accepted_ratings
+        )
 
   def process_workflow_p2(
         [{cat, comparer, value, next_workflow} | rest],
@@ -66,8 +78,8 @@ defmodule DayNineteen do
         cond_true_part_rating = Map.replace(part_rating, cat, {lo, new_hi})
         cond_false_part_rating = Map.replace(part_rating, cat, {value, hi})
 
-        process_workflow_p2(next_workflow, cond_true_part_rating, workflows_map, accepted_ratings)
-          ++ process_workflow_p2(rest, cond_false_part_rating, workflows_map, accepted_ratings)
+        process_workflow_p2(next_workflow, cond_true_part_rating, workflows_map, accepted_ratings) ++
+          process_workflow_p2(rest, cond_false_part_rating, workflows_map, accepted_ratings)
 
       ">" ->
         new_lo = max(value + 1, lo)
@@ -75,14 +87,13 @@ defmodule DayNineteen do
         cond_true_part_rating = Map.replace(part_rating, cat, {new_lo, hi})
         cond_false_part_rating = Map.replace(part_rating, cat, {lo, value})
 
-        process_workflow_p2(next_workflow, cond_true_part_rating, workflows_map, accepted_ratings)
-          ++ process_workflow_p2(rest, cond_false_part_rating, workflows_map, accepted_ratings)
+        process_workflow_p2(next_workflow, cond_true_part_rating, workflows_map, accepted_ratings) ++
+          process_workflow_p2(rest, cond_false_part_rating, workflows_map, accepted_ratings)
     end
   end
 
-  def process_workflow_p2([{next_workflow}], part_rating, workflows_map, accepted_ratings), do:
-    process_workflow_p2(next_workflow, part_rating, workflows_map, accepted_ratings)
-
+  def process_workflow_p2([{next_workflow}], part_rating, workflows_map, accepted_ratings),
+    do: process_workflow_p2(next_workflow, part_rating, workflows_map, accepted_ratings)
 
   def process_workflow("A", _, _), do: "A"
   def process_workflow("R", _, _), do: "R"
