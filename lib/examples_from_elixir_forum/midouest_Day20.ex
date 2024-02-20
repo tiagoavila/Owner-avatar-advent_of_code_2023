@@ -1,4 +1,4 @@
-defmodule Day19Part1 do
+defmodule MidouestDay19Part1 do
   def parse(input) do
     for line <- String.split(input, "\n", trim: true),
         reduce: {%{}, %{}} do
@@ -194,6 +194,19 @@ defmodule Day19Part1 do
     pulse = if Enum.all?(inputs[receiver], fn input -> next[input] == 1 end), do: 0, else: 1
     state = Map.put(state, receiver, next)
     {pulse, state}
+  end
+
+  def part_one(input) do
+    {inputs, outputs} = parse(input)
+
+    {lows, highs, _} =
+      for _ <- 1..1000, reduce: {0, 0, %{}} do
+        {lows, highs, state} ->
+          {new_lows, new_highs, state} = run(inputs, outputs, initial: state)
+          {lows + new_lows, highs + new_highs, state}
+      end
+
+    lows * highs
   end
 end
 

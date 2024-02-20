@@ -30,7 +30,7 @@ defmodule DayTwenty.ConjunctionServer do
 
     new_state = {:conjunction, destination_modules, updated_module_state}
 
-    {:reply, {pulse_to_send, destination_modules}, new_state}
+    {:reply, {destination_modules, pulse_to_send}, new_state}
 
   end
 end

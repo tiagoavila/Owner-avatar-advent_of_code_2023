@@ -24,7 +24,7 @@ defmodule DayTwenty.FlipFlopServer do
         {{:flip_flop, destination_modules, :off}, :low}
     end
 
-    {:reply, {pulse_to_send, destination_modules}, new_state}
+    {:reply, {destination_modules, pulse_to_send}, new_state}
   end
 
   @impl true
