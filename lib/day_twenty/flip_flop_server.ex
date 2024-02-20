@@ -16,13 +16,14 @@ defmodule DayTwenty.FlipFlopServer do
   def handle_call({:pulse, :low}, _from, state) do
     {:flip_flop, destination_modules, module_state} = state
 
-    {new_state, pulse_to_send} = case module_state do
-      :off ->
-        {{:flip_flop, destination_modules, :on}, :high}
+    {new_state, pulse_to_send} =
+      case module_state do
+        :off ->
+          {{:flip_flop, destination_modules, :on}, :high}
 
-      :on ->
-        {{:flip_flop, destination_modules, :off}, :low}
-    end
+        :on ->
+          {{:flip_flop, destination_modules, :off}, :low}
+      end
 
     {:reply, {destination_modules, pulse_to_send}, new_state}
   end

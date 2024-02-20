@@ -26,11 +26,10 @@ defmodule DayTwenty.ConjunctionServer do
     pulse_to_send =
       Map.values(updated_module_state)
       |> Enum.all?(&(&1 == :high))
-      |> then(&(if &1, do: :low, else: :high))
+      |> then(&if &1, do: :low, else: :high)
 
     new_state = {:conjunction, destination_modules, updated_module_state}
 
     {:reply, {destination_modules, pulse_to_send}, new_state}
-
   end
 end
