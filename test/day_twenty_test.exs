@@ -55,7 +55,7 @@ defmodule DayTwentyTest do
     assert DayTwenty.parse_input_to_map(input) |> IO.inspect()
   end
 
-  # @tag skip: true
+  @tag skip: true
   test "DayTwenty - challenge part one" do
     assert File.read!("./inputs/day_twenty/challenge_input.txt")
            |> DayTwenty.part_one() == 886_347_020
@@ -64,8 +64,8 @@ defmodule DayTwentyTest do
   @tag skip: true
   test "DayTwenty - challenge part one midouest" do
     assert File.read!("./inputs/day_twenty/challenge_input.txt")
-           |> MidouestDay19Part1.part_one()
-           == 886_347_020
+           |> MidouestDay19Part1.part_one() ==
+             886_347_020
   end
 
   # test "DayTwenty - test part two" do
@@ -74,10 +74,9 @@ defmodule DayTwentyTest do
   # 	   |> DayTwenty.part_two() == 0
   # end
 
-  # test "DayTwenty - challenge part two" do
-  # 	assert File.read!("./inputs/day_twenty/challenge_input.txt")
-  # 	   |> String.split("\r\n", trim: true)
-  # 	   |> DayTwenty.part_two()
-  # 	   |> IO.inspect(label: "day_twenty - challenge two")
-  # end
+  @tag skip: true
+  test "DayTwenty - challenge part two" do
+    assert File.read!("./inputs/day_twenty/challenge_input.txt")
+           |> DayTwenty.part_two() == 233_283_622_908_263
+  end
 end
